@@ -10,3 +10,4 @@ import custom       # backwards compatibility support
 import publications
 
 import numeric
+import stackable

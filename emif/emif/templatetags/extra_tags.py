@@ -90,6 +90,12 @@ def removedots(value):
     
     return value
 
+@register.filter(name='escapedots')
+@stringfilter
+def escapedots(value):
+    value = value.replace('.','\\\\.')
+    
+    return value
 
 @register.filter(name='geths')
 @stringfilter
