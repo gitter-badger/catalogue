@@ -77,9 +77,9 @@ function StackableWidget(questionNumber){
 		value = JSON.parse(value);
 		
 		for(x in value){
-			var id = this.cnt++;
-			this.renderQuestion(id);
+			var id = this.cnt++;			
 			this.answers[id] = value[x];
+			this.renderQuestion(id);
 		}	
 	}
 	this.selectQuestion(0);
@@ -115,17 +115,23 @@ StackableWidget.prototype = {
 		var self = this;
 
 		//Render the question!!!
-		var btn1 = $("<button class=\"btn btn-mini\" type=\"button\">remove</button>");
-		btn1.click(function() {
+		var btn1 = $("<a href=\"#\"><img src=\"static/img/glyphicons_192_circle_remove.png\"></img></a>");
+		btn1.click(function(e) {
+			e.preventDefault();
 			self.removeLine(qn);
+			return false;
 		});
 
-		var btn2 = $("<button class=\"btn btn-mini\" type=\"button\">select</button>");
-		btn2.click(function() {
+		var btn2 = $("<a href=\"#\"><img src=\"static/img/glyphicons_150_edit.png\"></img></a>");
+		btn2.click(function(e) {
+			e.preventDefault();
 			self.selectQuestion(qn);
+			return false;
 		});
 
-		var td = $("<tr>").attr("id", "stackable_table_"+this.question_number+"_"+qn).append( [$("<td>").append([btn1, btn2]), "<td snipet></td>"]);
+		var snipet = this.createFormSnipet(qn);
+
+		var td = $("<tr>").attr("id", "stackable_table_"+this.question_number+"_"+qn).append( [$("<td style=\"width: 90px;\">").append([btn2,"&nbsp;&nbsp;&nbsp;",btn1]), "<td snipet>"+snipet+"</td>"]);
 		$("#stackable_table_"+escapedots(this.question_number)).append(td);		
 	},
 	removeLine : function(qn){
@@ -143,13 +149,11 @@ StackableWidget.prototype = {
 		var answer = this.answers[this.current_answer];
 		var qn_dotfree = escapedots(this.question_number);
 		
-		var snipetText = "";
-
 		for( x in this.widgets){
 			answer[this.widgets[x].getQuestionNumber()] = this.widgets[x].getValue();
-			if(snipetText == "")
-				snipetText = this.widgets[x].getValue();
 		}
+
+		var snipetText = this.createFormSnipet(this.current_answer);
 
 		var tableRow = $("#stackable_table_"+qn_dotfree+"_"+this.current_answer)
 		$("td[snipet]", tableRow).text(snipetText);
@@ -175,7 +179,7 @@ StackableWidget.prototype = {
 				this.deselectQuestion();
 			}
 
-			$("#stackable_table_"+qn_dotfree+"_"+qn).addClass("success");
+			$("#stackable_table_"+qn_dotfree+"_"+qn).addClass("info");
 			this.current_answer = qn;
 			var answer = this.answers[this.current_answer];
 
@@ -190,7 +194,7 @@ StackableWidget.prototype = {
 		var qn_dotfree = escapedots(this.question_number);
 		var self = this;
 
-		$("#stackable_table_"+qn_dotfree+"_"+this.current_answer).removeClass("success");
+		$("#stackable_table_"+qn_dotfree+"_"+this.current_answer).removeClass("info");
 		//Clean All Controllers
 		for( x in this.widgets){
 			this.widgets[x].clear();
@@ -198,5 +202,18 @@ StackableWidget.prototype = {
 			this.widgets[x].hide();
 		}
 		this.current_answer = null;
+	},
+	createFormSnipet : function(qn){
+		if(this.answers[qn] == undefined)
+			return "";
+		var n = 0;
+		var snipet = "";
+		for(x in this.answers[qn]){
+			snipet = x +": "+ this.answers[qn][x]+"; "
+			n++;
+			if(n == 1) break;
+		}
+
+		return snipet;
 	}
 }

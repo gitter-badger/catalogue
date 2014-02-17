@@ -2,11 +2,14 @@
 {% load extra_tags %}
 <div class="clearfix">
     
-    <div class="input">
-      <button id="stackable_newlinebtn_{{question.number}}" class="btn btn-mini" type="button">New Line</button>
-    <button id="stackable_save_{{question.number}}" class="btn btn-mini" type="button">Save Line</button>
-    
+    <div class="input"> 
     	<table id="stackable_table_{{question.number}}" class="table">
+            <thead>
+                <tr>
+                  <th></th>
+                  <th>Form Preview</th>
+                </tr>
+            </thead>
             <!--
                 ### SAMPLE ROW!!!
             <tr id="stackable_table_{{question.number}}_1" class="success">
@@ -19,6 +22,12 @@
                 <td>Nova Pergunta</td>
             </tr>-->
     	</table>
+
+
+      <button id="stackable_newlinebtn_{{question.number}}" type="button" class="btn btn-primary">
+        <i class="icon-large icon-white icon-plus-sign"></i> Add new Question Form</button>
+    <button id="stackable_save_{{question.number}}" type="button" class="btn btn-primary">
+        <i class="icon-large icon-white icon-check"></i> Save current Form</button>
 
         <input type="hidden" class=" " size="50" id="question_{{ question.number }}" name="question_{{ question.number }}" value="{{ qdict.value|forcearray}}">
 
