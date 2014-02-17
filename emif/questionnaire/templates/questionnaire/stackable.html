@@ -5,8 +5,10 @@
     <div class="input">
       <button id="stackable_newlinebtn_{{question.number}}" class="btn btn-mini" type="button">New Line</button>
     <button id="stackable_save_{{question.number}}" class="btn btn-mini" type="button">Save Line</button>
-  
+    
     	<table id="stackable_table_{{question.number}}" class="table">
+            <!--
+                ### SAMPLE ROW!!!
             <tr id="stackable_table_{{question.number}}_1" class="success">
                 <td>
                     <button id="stackable_select_{{question.number}}" class="btn btn-mini" type="button">select</button>
@@ -15,8 +17,10 @@
 
                 </td>
                 <td>Nova Pergunta</td>
-            </tr>
+            </tr>-->
     	</table>
+
+        <input type="hidden" class=" " size="50" id="question_{{ question.number }}" name="question_{{ question.number }}" value="{{ qdict.value }}">
 
         {% if question.extra %}
             <span class="help-block">{{ question.extra }}</span>
@@ -28,8 +32,11 @@
         {% endif %}
 
         <script>
+            var AAAA;
+
             $(document).ready(function(){
                 var stackable = new StackableWidget("{{question.number}}");
+                AAAA = stackable;
             });
         </script>
     </div>

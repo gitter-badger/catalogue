@@ -52,29 +52,37 @@ Open_TypeWidget.prototype = {
 function StackableWidget(questionNumber){
 	this.widgets = [];
 	this.answers = [];
-	this.current_answer;
-	
-	this.my_widget;
-
+	this.current_answer = null;
 	this.question_number = questionNumber;
+	this.valueField = $("#question_"+escapedots(this.question_number));
 
 	var self = this;
 	var qr = "div[id^=qc_"+questionNumber+".]";
 	qr = escapedots(qr);
 
-	console.log(qr);
+	//console.log(qr);
 	$(qr).each(function(i,v){
-		console.log(v);
-
 		var widget = new Open_TypeWidget($(v));
   		self.widgets[widget.getQuestionNumber()] = widget;
-		console.log(widget);
 
+  		widget.hide();
 	});	
 
 	this.bindControlls();
-	this.cnt = 10;
+	this.cnt = 0;
 
+	var value = this.valueField.val();
+	//console.log("Value: "+value);
+	if(value != undefined && value != ""){
+		value = JSON.parse(value);
+		
+		for(x in value){
+			var id = this.cnt++;
+			this.renderQuestion(id);
+			this.answers[id] = value[x];
+		}	
+	}
+	this.selectQuestion(0);
 
 }
 StackableWidget.prototype = {
@@ -82,7 +90,7 @@ StackableWidget.prototype = {
 		var qn_dotfree = escapedots(this.question_number);
 		var self = this;
 
-		console.log($("#stackable_newlinebtn_"+qn_dotfree));
+		//console.log($("#stackable_newlinebtn_"+qn_dotfree));
 		$("#stackable_newlinebtn_"+qn_dotfree).click( function(){
 			self.newLineHandler();
 		} );
@@ -92,8 +100,6 @@ StackableWidget.prototype = {
 		} );
 	},
 	newLineHandler : function(){
-		console.log(this);
-
 		var qn_dotfree = escapedots(this.question_number);
 		var self = this;
 
@@ -101,25 +107,27 @@ StackableWidget.prototype = {
 		
 		var ans_id = self.cnt++;
 	 	this.answers[ans_id] = new_answer;
-		
+
+	 	this.renderQuestion(ans_id);		
+		//$("#stackable_table_"+qn_dotfree).append("<tr id=\"stackable_table_"+self.question_number+"_"+ans_id+"\" class=\"success\"><td></td><td>Nova Pergunta</td></tr>");
+		this.selectQuestion(ans_id);
+	},
+	renderQuestion : function(qn){ 
+		var self = this;
+
 		//Render the question!!!
 		var btn1 = $("<button class=\"btn btn-mini\" type=\"button\">remove</button>");
 		btn1.click(function() {
-			self.removeLine(ans_id);
+			self.removeLine(qn);
 		});
 
 		var btn2 = $("<button class=\"btn btn-mini\" type=\"button\">select</button>");
 		btn2.click(function() {
-			self.selectQuestion(ans_id);
+			self.selectQuestion(qn);
 		});
 
-
-		var td = $("<tr>").attr("id", "stackable_table_"+self.question_number+"_"+ans_id).append( [$("<td>").append([btn1, btn2]), "<td>Nova</td>"]);
-		$("#stackable_table_"+qn_dotfree).append(td);
-		
-		//$("#stackable_table_"+qn_dotfree).append("<tr id=\"stackable_table_"+self.question_number+"_"+ans_id+"\" class=\"success\"><td></td><td>Nova Pergunta</td></tr>");
-
-		this.selectQuestion(ans_id);
+		var td = $("<tr>").attr("id", "stackable_table_"+this.question_number+"_"+qn).append( [$("<td>").append([btn1, btn2]), "<td>Nova</td>"]);
+		$("#stackable_table_"+escapedots(this.question_number)).append(td);		
 	},
 	removeLine : function(qn){
 		var qn_dotfree = escapedots(this.question_number);
@@ -127,6 +135,10 @@ StackableWidget.prototype = {
 
 		$("#stackable_table_"+qn_dotfree+"_"+qn).remove();
 		delete this.answers[qn];
+
+		this.refreshValue();
+
+		this.deselectQuestion();
 	},
 	saveQuestion : function(){
 		var answer = this.answers[this.current_answer];
@@ -134,7 +146,17 @@ StackableWidget.prototype = {
 		for( x in this.widgets){
 			answer[this.widgets[x].getQuestionNumber()] = this.widgets[x].getValue();
 		}
+		this.refreshValue();
+	},
+	refreshValue : function(){
+		var notNull = [];
 
+		for( x in  this.answers){
+			if( this.answers[x] != null )
+				notNull.push(this.answers[x]);
+		} 
+
+		this.valueField.val( JSON.stringify(notNull) );	
 	},
 	selectQuestion : function(qn){
 		var qn_dotfree = escapedots(this.question_number);
@@ -152,6 +174,8 @@ StackableWidget.prototype = {
 
 			for( x in this.widgets){
 				this.widgets[x].setValue( answer[this.widgets[x].getQuestionNumber()] );
+
+				this.widgets[x].show();
 			}
 		}
 	},
@@ -163,6 +187,8 @@ StackableWidget.prototype = {
 		//Clean All Controllers
 		for( x in this.widgets){
 			this.widgets[x].clear();
+
+			this.widgets[x].hide();
 		}
 		this.current_answer = null;
 	}
