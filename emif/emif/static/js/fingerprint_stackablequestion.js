@@ -109,7 +109,6 @@ StackableWidget.prototype = {
 	 	this.answers[ans_id] = new_answer;
 
 	 	this.renderQuestion(ans_id);		
-		//$("#stackable_table_"+qn_dotfree).append("<tr id=\"stackable_table_"+self.question_number+"_"+ans_id+"\" class=\"success\"><td></td><td>Nova Pergunta</td></tr>");
 		this.selectQuestion(ans_id);
 	},
 	renderQuestion : function(qn){ 
@@ -126,7 +125,7 @@ StackableWidget.prototype = {
 			self.selectQuestion(qn);
 		});
 
-		var td = $("<tr>").attr("id", "stackable_table_"+this.question_number+"_"+qn).append( [$("<td>").append([btn1, btn2]), "<td>Nova</td>"]);
+		var td = $("<tr>").attr("id", "stackable_table_"+this.question_number+"_"+qn).append( [$("<td>").append([btn1, btn2]), "<td snipet></td>"]);
 		$("#stackable_table_"+escapedots(this.question_number)).append(td);		
 	},
 	removeLine : function(qn){
@@ -142,10 +141,18 @@ StackableWidget.prototype = {
 	},
 	saveQuestion : function(){
 		var answer = this.answers[this.current_answer];
+		var qn_dotfree = escapedots(this.question_number);
+		
+		var snipetText = "";
 
 		for( x in this.widgets){
 			answer[this.widgets[x].getQuestionNumber()] = this.widgets[x].getValue();
+			if(snipetText == "")
+				snipetText = this.widgets[x].getValue();
 		}
+
+		var tableRow = $("#stackable_table_"+qn_dotfree+"_"+this.current_answer)
+		$("td[snipet]", tableRow).text(snipetText);
 		this.refreshValue();
 	},
 	refreshValue : function(){

@@ -13,9 +13,6 @@ def question_(request, question):
     key = "question_%s" % question.number
     value = question.getcheckdict().get('default','')
 
-    print question
-    print "HERE REQUEST!!!!!!!!!" +value
-
     if key in request.POST:
         value = request.POST[key]
         print "REQUEST!!!!" + value
@@ -32,9 +29,6 @@ def process_(question, ansdict):
     required = question.getcheckdict().get('required', 0)
     ans = ansdict['ANSWER'] or ''
     qtype = question.get_type()
-
-
-    print "HERE Process!!!!!!!!" +ans
 
     #if len(ans)!=0 and not ans.isdigit():
      #   raise AnswerException(_(u'Must be a mumeric field. ex: 1000000000 = 1 Million'))

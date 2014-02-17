@@ -97,6 +97,14 @@ def escapedots(value):
     
     return value
 
+@register.filter(name='forcearray')
+@stringfilter
+def forcearray(value):
+    if value and value[0] != "[":
+        value = "[" + value +"]"
+
+    return value
+
 @register.filter(name='geths')
 @stringfilter
 def geths(value):
