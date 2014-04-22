@@ -5,8 +5,8 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    background: #292929;
-    color: white;
+    background: #FFFFFF;//#292929;
+    color: #000000;
     font-family: sans-serif, Verdana;
     font-size: smaller;
     padding: 3px;

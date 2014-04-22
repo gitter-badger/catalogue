@@ -10,8 +10,42 @@
 {% endblock %}
 
 {% block content %} 
-<div id="worldmap" style="text-align: center; width: auto; margin: auto; height: 600px"></div>
+<div style="height: 600px; position: relative;">
+<div style="margin-top: 30px; position: relative;" class="pull-left">
+    <div id="worldmap" style="margin-left: -5px; height: 600px; padding:0px;" class="span9 well well-small">
+    <button style="position: absolute; z-index: 1000; top:10px; right:10px;" onclick="resetSelection();" class="btn">Reset Selection</button>
+    <div style="position: absolute; z-index: 1000; bottom:15px; left:0px;">&nbsp; <small>Showing</small><br /><select>
+        <option value="population_density" selected>Population Density</option>
+        <option value="database_density" selected>Database Density</option>
+        <option value="database_type" selected>Main type of database</option>
+    </select>
+    </div>
+</div>
+
+</div>
+<div style="margin-top: 30px; margin-left: 5px;" class="span3 pull-right">
+    <div id="info_content" style="height: 600px" class="well well-small">
+        Select one country to see information...
+    </div>
+</div>
+</div>
 <script type="text/javascript">
+function resetSelection(){
+    var map = $('#worldmap').vectorMap('get', 'mapObject');
+
+    // God, i dont know why i need to specify all selected and set them as false, but is the only way it works.
+    selected = {};
+
+    var sr = map.getSelectedRegions();
+    console.log(sr);
+    for(var i =0;i<sr.length;i++){
+        selected[sr[i]] = false;
+    }
+    console.log(selected)
+    map.setSelectedRegions(selected);
+
+    $("#info_content").text("Select one country to see information...");
+}
 $(function(){
     var gdpData = {
       "AF": 16.63,
@@ -23,7 +57,14 @@ $(function(){
     };
     $('#worldmap').vectorMap({
         map: "world_mill_en",
-        backgroundColor: "#FFFFFF",
+        backgroundColor: "#f5f5f5",
+        focusOn: {
+          x: 0.37,
+          y: 0.45,
+          scale: 2
+        },
+        regionsSelectable: true,
+        regionsSelectableOne: true,
           series: {
             regions: [{
               values: gdpData,
@@ -43,19 +84,35 @@ $(function(){
                 "fill-opacity": 0.8
               },
               selected: {
-                fill: 'yellow'
+                fill: '#444444'
               },
               selectedHover: {
               }
           },
           onRegionLabelShow: function(e, el, code){
-            el.html(el.html()+' (GDP - '+gdpData[code]+')');
+            e.preventDefault();
+
+            el.html('<div class="well">'+el.html()+'</div>');
+          },
+          onRegionClick: function(e, code){
+            setInformations(code);
           }
     });
-    $('#worldmap').bind('regionOver.jvectormap', function(event, code){
-        console.log("code:"+code);
-    });
-
 });
+function setInformations(code){
+    var content=[];
+    content.push("<h4>"+code+"</h4>");
+    content.push("<h5>Databases on this country</h5>");
+    content.push('<table style="background-color: white;" class="table table-bordered"><tr><td><a href="teste2">Alzheimers Center</a></td></tr>');
+    content.push('<tr><td><a href="teste1">ACHMED</a></td></tr>');
+    content.push('<tr><td><a href="teste3">Lupus Investigation Unit</a></td></tr></table>');
+
+    content.push("<h5>Statistics</h5>");
+    content.push('<table style="background-color: white;" class="table table-bordered"><tr><td>Number of institutes:</td><td>3</td></tr>');
+    content.push('<tr><td>Patient pop. density: </td><td>750 p/km</td></tr>');
+    content.push('<tr><td>Main type of database: </td><td>Adcohort</td></tr></table>');
+
+    $("#info_content").html(content.join(''));
+}
 </script>
 {% endblock %}
