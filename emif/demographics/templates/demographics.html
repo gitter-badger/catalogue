@@ -3,22 +3,59 @@
 {% load markup questionnaire i18n %}
 
 {% block headextra %}
-<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/jquery-jvectormap.css"></script>
-<script src="{{ STATIC_URL}}js/vendor/jquery-jvectormap.js"></script>
-<script src="{{ STATIC_URL}}js/vendor/jquery-jvectormap-world-en.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}css/vendor/jquery-jvectormap-1.2.2.css"></script>
+<script src="{{ STATIC_URL}}js/vendor/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="{{ STATIC_URL}}js/vendor/jquery-jvectormap-world-mill-en.js"></script>
 
 {% endblock %}
 
 {% block content %} 
-<div id="world-map" style="text-align: center; width: auto; margin: auto; height: 600px"></div>
+<div id="worldmap" style="text-align: center; width: auto; margin: auto; height: 600px"></div>
 <script type="text/javascript">
 $(function(){
-    $('#world-map').vectorMap({
-        color: "#b2afa7",
+    var gdpData = {
+      "AF": 16.63,
+      "AL": 11.58,
+      "US": 78.97,
+      "ES": 38.97,
+      "CA": 98.97,
+      "DZ": 158.97
+    };
+    $('#worldmap').vectorMap({
+        map: "world_mill_en",
         backgroundColor: "#FFFFFF",
-        colors: {US: '#FF0000'}
-        
+          series: {
+            regions: [{
+              values: gdpData,
+              scale: ['#4a9a3c', '#e73838'],
+              normalizeFunction: 'polynomial'
+            }]
+          },
+          regionStyle: {
+              initial: {
+                fill: '#999999',
+                "fill-opacity": 1,
+                stroke: 'none',
+                "stroke-width": 0,
+                "stroke-opacity": 1
+              },
+              hover: {
+                "fill-opacity": 0.8
+              },
+              selected: {
+                fill: 'yellow'
+              },
+              selectedHover: {
+              }
+          },
+          onRegionLabelShow: function(e, el, code){
+            el.html(el.html()+' (GDP - '+gdpData[code]+')');
+          }
     });
+    $('#worldmap').bind('regionOver.jvectormap', function(event, code){
+        console.log("code:"+code);
+    });
+
 });
 </script>
 {% endblock %}
