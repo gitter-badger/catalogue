@@ -253,6 +253,8 @@ urlpatterns = patterns('',
 
     # Literature URLs
     url(r'literature/', include('literature.urls')),
+    # Demographics URLs
+    url(r'demographics/', include('demographics.urls')),
 )
 
 if settings.DEBUG:
