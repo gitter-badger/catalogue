@@ -1,0 +1,54 @@
+{% load extra_tags %}
+<div id="facelets" style="margin-left: 0px;" class="pull-left span2 well well-small">
+  <h5 style="margin-top: 0px;">Refine Search</h5>
+  <div style="background-color: white; font-size: 12px;" class="accordion" id="accordion2">
+  <div class="accordion-group accordion-caret">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" href="#collapseOne">
+        <span>Type of Database</span>
+      </a>
+    </div>
+    <div id="collapseOne" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <div class="faceletoptions">
+            {% for id, type in databases_types.items %}
+                <label class="checkbox">
+                  <input type="checkbox" name="databasename" class="faceletoption" value="{{id}}">
+                    {{type}}
+                </label>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="accordion-group accordion-caret">
+    <div class="accordion-heading">
+      <a class="accordion-toggle collapsed" data-toggle="collapse" href="#collapseTwo">
+        Anatomy
+      </a>
+    </div>
+    <div id="collapseTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <div class="faceletoptions">
+            <label class="checkbox">
+              <input type="checkbox" class="faceletoption" value="" checked>
+                Stuff
+            </label>
+            <label class="checkbox">
+              <input type="checkbox" class="faceletoption" value="" checked>
+                More Stuff
+            </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script type="text/javascript"> 
+  $(function(){
+    var height = parseFloat($('#resultstable').css('height'));
+    console.log(height);
+    $('#facelets').css('height', (height-40)+"px");
+  });
+</script>

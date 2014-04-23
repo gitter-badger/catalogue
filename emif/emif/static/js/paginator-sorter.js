@@ -216,6 +216,14 @@ PaginatorSorter.prototype = {
     }
 }
 
+function DatabaseFaceletPlugin(){
+    this.selectedList = undefined;
+    this.typedb=undefined;
+}
+DatabaseFaceletPlugin.prototype = {
+
+};
+
 //This plugin handles the select boxes for the SearchResultsPage
 function SelectPaginatorPlugin() {
     this.selectedList = undefined;

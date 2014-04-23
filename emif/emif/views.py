@@ -241,13 +241,24 @@ def results_fulltext_aux(request, query, page=1, template_name='results.html', i
 
     query_old = request.session.get('query', "")
         
+
+    # Get list of databases types and return it
+    try:
+        dbtypes = Questionnaire.objects.filter(disable=False)
+    except:
+        pass
+    databases_types = {}
+    for q in dbtypes:
+        databases_types[q.id] = q.name
+
     if isAdvanced == True:
         return render(request, template_name, {'request': request,
                                            'num_results': hits, 'page_obj': pager, 'page_rows': rows,
-                                            'breadcrumb': True, 'isAdvanced': True, "sort_params": sort_params, "page":page})
+                                            'breadcrumb': True, 'isAdvanced': True, "sort_params": sort_params, "page":page, "databases_types":databases_types })
     else :
         return render(request, template_name, {'request': request,
-                                           'num_results': hits, 'page_obj': pager, 'page_rows': rows,'breadcrumb': True, 'search_old': query_old, 'isAdvanced': False, "sort_params": sort_params, "page":page})
+                                           'num_results': hits, 'page_obj': pager, 'page_rows': rows,'breadcrumb': True, 'search_old': query_old, 
+                                           'isAdvanced': False, "sort_params": sort_params, "page":page, "databases_types":databases_types})
 
 
 def store_query(user_request, query_executed):

@@ -89,6 +89,7 @@
     </div>
     </div>
     {% if page_obj != None %}
+
     <form id="compare_form" action="resultscomp" method="POST">
       {% csrf_token %}
       <div id="comparedbs"></div>
@@ -96,7 +97,10 @@
     </form>
     <form id="result_form" action="resultscomp" method="POST">
   {% csrf_token %}
-<table class="table table-bordered table-hover fingerprint_table table-striped" id="table_databases" data-provides="rowlink">
+  <div>
+  {% include "facelets_column.html" %}
+
+<div id="resultstable" style="margin-left: 0px;" class="span10 pull-right"><table style="margin-bottom:20px;" class="table table-bordered table-hover fingerprint_table table-striped" id="table_databases" data-provides="rowlink">
     <thead>
         <tr>
             <th class="sorter-database_name sorter {%if "icon-minus" not in sort_params.database_name.icon %}selected-sorter{% endif %}"  onclick="a.onClick('database_name', '{{sort_params.database_name.next}}');">
@@ -144,11 +148,11 @@
                  <input class="filter_input" id="last_update_filter" type="text" value="{{sort_params.last_update.filter}}" placeholder="Filter">
           </td>
            <td class="table_filter">
-              <select id="type_filter" class="selectpicker" def_value="{{sort_params.type.filter}}">
+              <!--select id="type_filter" class="selectpicker" def_value="{{sort_params.type.filter}}">
                 <option value="">None</option>
                 <option value="adcohort">AD Cohort</option>
                 <option value="observationaldatasources">Observational Data Sources</option>
-              </select>
+              </select-->
           </td>
           <td class="table_filter select_line">
             <div style="text-align: center;">
@@ -228,6 +232,8 @@
 
     </tbody>
 </table>
+</div>
+</div>
 
   </form>
     {% else %}
