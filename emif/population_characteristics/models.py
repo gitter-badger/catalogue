@@ -23,6 +23,8 @@ from django.db.models.fields import *
 
 from docs_manager.models import Document
 
+from fingerprint.models import *
+
 import json
 
 
@@ -52,3 +54,7 @@ class Comments(models.Model):
         s += "title: " + self.title+ "\n"
         s += "description: " + self.description+ "\n"
         return s
+
+class PopulCharactTemplate(models.Model):
+    fingerprint = models.ForeignKey(Fingerprint)
+    json = models.TextField() 

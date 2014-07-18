@@ -75,6 +75,13 @@ class SetCharst(object):
     def to_JSON(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
+    @staticmethod
+    def from_json(jsonvv):
+        inst = SetCharst()
+        if jsonvv!=None:
+            inst.__dict__ = jsonvv
+        return inst
+
 
 
 # Active patients

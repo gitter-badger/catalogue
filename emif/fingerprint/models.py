@@ -28,6 +28,7 @@ from questionnaire.models import *
 from django.contrib.auth.models import User
 
 from description import fingerprint_description_slugs
+from population_characteristics import *
 
 class Fingerprint(models.Model):
     fingerprint_hash =  models.CharField(max_length=255, unique=True, blank=False, null=False)

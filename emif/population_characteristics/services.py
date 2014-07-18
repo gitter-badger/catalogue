@@ -25,6 +25,10 @@ import json
 from .conf_charts import *
 from .charts.rule_matcher import * 
 
+from population_characteristics.conf_charts import ConfCharts
+from population_characteristics.models import PopulCharactTemplate
+from fingerprint.models import Fingerprint
+
 
 class PopulationCharacteristic(object):
     """PopulationCharacteristic: This class controls the Jerboa File
@@ -43,11 +47,58 @@ class PopulationCharacteristic(object):
     def revisions(self):
         pass
 
-    def submit_new_revision(self, fingerprint_id, path_file=None):
-        
+
+    def submit_new_revision(self, fingerprint_id, path_file=None):      #upload of a file(json, tsv, ....)
+
+        if '.json' in path_file:                #when json file
+
+            #self.json = open(path_file)
+            self._json = import_population_characteristics_data(fingerprint_id, filename=path_file)
+            f =  Fingerprint.objects.filter(fingerprint_hash=fingerprint_id)
+
+            if f.exists():
+                f = f[0]
+            else:
+                raise
+
+            fp = PopulCharactTemplate.objects.filter(fingerprint=f)
+            text = open(path_file,"r+")
+            text = text.read()
+
+            if fp.exists():
+                fp = fp[0]
+                fp.json = text
+            else:
+                fp = PopulCharactTemplate()
+                fp.fingerprint = f
+                fp.json = text
+            fp.save()
+
+        elif '.txt' in path_file:               #when txt file
+
         #path_file = "C:/Users/lbastiao/Projects/TEST_DataProfile_v1.5.6b.txt"
-        #path_file = "/Volumes/EXT1/Dropbox/MAPi-Dropbox/EMIF/Jerboa/TEST_DataProfile_v1.5.6b.txt"        
-        self._json = import_population_characteristics_data(fingerprint_id, filename=path_file)
+        #path_file = "/Volumes/EXT1/Dropbox/MAPi-Dropbox/EMIF/Jerboa/TEST_DataProfile_v1.5.6b.txt"
+
+            c = ConfCharts()
+            self._json = import_population_characteristics_data(fingerprint_id, filename=path_file)
+            f =  Fingerprint.objects.filter(fingerprint_hash=fingerprint_id)       
+
+            if f.exists():
+                f = f[0]
+            else:
+                raise
+
+            fp = PopulCharactTemplate.objects.filter(fingerprint=f)
+
+            if fp.exists():
+                fp = fp[0]
+                if fp.json is None:
+                    fp.json = c.get_default_ods_settings().to_JSON()
+            else:
+                fp = PopulCharactTemplate()
+                fp.fingerprint = f
+                fp.json = c.get_default_ods_settings().to_JSON()
+            fp.save()
         #print self._json
         #f = open('jerboaTmp', 'w')
         #f.write(self._json)

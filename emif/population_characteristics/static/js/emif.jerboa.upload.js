@@ -95,7 +95,7 @@ $(function () {
         },
         dataType: 'json',
         autoUpload: false,
-        acceptFileTypes: /(\.|\/)(tsv|txt)$/i,
+        acceptFileTypes: /(\.|\/)(tsv|txt|json)$/i,
         maxFileSize: 5000000, // 5 MB
         // Enable image resizing, except for Android and Opera,
         // which actually support image resizing, but fail to

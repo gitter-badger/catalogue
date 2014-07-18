@@ -18,14 +18,14 @@
 #
 from population_characteristics.charts.operations import * 
 from population_characteristics.charts.chart import *
-
+from population_characteristics.models import PopulCharactTemplate
 
 
 class ConfCharts(object):
 
     def __init__(self):
-        # TODO 
-        pass
+        self.default_json = {'observationaldatasources': self.get_default_ods_settings()}
+        #pass
 
     def read_settings_from_file(self):
         # TODO
@@ -34,11 +34,27 @@ class ConfCharts(object):
     """ get the default settings to load 
     """
     
-    def get_main_settings(self):
+    def get_main_settings(self, fingerprintID=None):    #fingerprintID=None
         
+        if fingerprintID!=None:         
+            sc = SetCharst()
+            
+            #read json string from table  
+            v = PopulCharactTemplate.objects.filter(fingerprint=fingerprintID)
+
+            #decode
+            sc = sc.from_json(v)
+
+            #insert in dic
+            default_json = sc
+
+            return default_json
+        
+        else:
+            return self.get_default_ods_settings()
 
 
-
+    def get_default_ods_settings(self):
         sc = SetCharst()
 
         sc.charts = []
