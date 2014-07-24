@@ -97,8 +97,7 @@
 
 {% if qsets %}
 
-<div style="margin-left: 0px;" class="span12">
-    <div class="row-fluid">
+<div class="clearboth">
         <div class="tabbable">
             <ul class="nav nav-tabs">
                 <li class="{%if activetab == 'summary'%}active{%endif%}">
@@ -126,17 +125,17 @@
                 <div class="tab-pane {%if activetab == 'summary'%}active{%endif%}" id="metadata">
                     <div>
                         {% if owner_fingerprint or user.is_staff %}
-                        <div class="pull-left">
+                        <div style="line-height: 40px;" class="pull-left">
                             <small>
                                 <strong>Hits: </strong>{{hits}} &nbsp;&nbsp;
                                 <strong>Unique Views: </strong> {% get_hit_count for fingerprint %}
                             </small>
                         </div>
                         {% endif %}
-                        <div class="pull-right btn-group">
-                            <button style="display: none;" type="button" class="btn" id="show_hide_button">Hide Empty</button>
+                        <div style="margin-top:5px;" class="pull-right btn-group">
+                            <button style="display: none;" type="button" class="btn btn-default" id="show_hide_button">Hide Empty</button>
 
-                            <a id="collapseall_metadata" class="btn" href=""><i class="icon-plus"></i>&nbsp; Expand all</a>
+                            <a id="collapseall_metadata" class="btn btn-default" href=""><i class="icon-plus"></i>&nbsp; Expand all</a>
                         </div> 
                         
                     </div>
@@ -231,8 +230,6 @@
         </div>
     </div>
 </div>
-</div>
-</div>
 {% else %}
 <div class="row">
     <div class="span4">
@@ -312,12 +309,12 @@ console.log("Creating questionnary set containers (so they are in order)");
             {% if permissions.visibility == 0 or owner_fingerprint or request.user.is_superuser %}
                 containers.push('<div class="{% if not permissions.allow_printing %}noprinting {% endif %}'+
                 '{% if not permissions.allow_exporting %}noexporting {% endif %}'+
-                '{%if permissions.visibility == 1 %}{% if owner_fingerprint or request.user.is_superuser %} privategroup{% endif %}{% endif %} accordion-group">'
-                +'<div class="accordion-heading"><a style="display: inline-block; width: 90%;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse{{ tuple.0|removespaces|safe|clean }}">{{ tuple.0|removeh1 }} </a>'+
+                '{%if permissions.visibility == 1 %}{% if owner_fingerprint or request.user.is_superuser %} privategroup{% endif %}{% endif %} panel panel-bare">'
+                +'<div class="panel-heading"><a style="display: inline-block; width: 90%;" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapse{{ tuple.0|removespaces|safe|clean }}">{{ tuple.0|removeh1 }} </a>'+
                 '{% if permissions.visibility == 1 and owner_fingerprint %}<i class="tooltipit icon-eye-close" title="This questionset is private, only the data custodian can see it." ></i>{% endif %}'+
                 '{% if not permissions.allow_printing %}<img class="tooltipit" title="The data custodian doesn\'t allow this section to be printed." src="{{ STATIC_URL}}img/noprint.png"/>{% endif %}'+
                 '{% if not permissions.allow_exporting %}<img class="tooltipit" title="The data custodian doesn\'t allow this section to be exported." src="{{ STATIC_URL}}img/noexport.png"/>{% endif %}'+
-                '<span class="accordion-icon"></span></div><div id="collapse{{ tuple.0|removespaces|safe|clean }}" class="accordion-body collapse"><div id="qs_{{ tuple.1.sortid }}" class="accordion-inner"><h4 class="pull-center">Loading...</h4></div></div></div>');
+                '<span class="accordion-icon"></span></div><div id="collapse{{ tuple.0|removespaces|safe|clean }}" class="panel-collapse collapse"><div id="qs_{{ tuple.1.sortid }}" class="panel-body"><h4 class="pull-center">Loading...</h4></div></div></div>');
             {% endif %}
         
         {% endfor %}
@@ -409,8 +406,8 @@ $(document).ready(function() {
     $(".tooltipit").tooltip({container: "body"});
 
     // On expand event, we burst the priority of this thread to load before the others
-    $('.accordion-heading').click(function(){
-        var load_faster = $('.accordion-inner', $(this).parent()).attr('id');
+    $('.panel-heading').click(function(){
+        var load_faster = $('.panel-body', $(this).parent()).attr('id');
         console.log("Thread state for "+load_faster+": "+threads[load_faster]);        
         if(threads[load_faster] != null){
             threads[load_faster].setPriority(0);

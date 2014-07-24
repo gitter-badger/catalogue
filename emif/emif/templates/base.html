@@ -81,10 +81,10 @@
     <body>
         <div class="wrapper">
             <div class="well not-supported">
-                <div class="navbar navbar-fixed-top">
+                <div class="navbar navbar-default navbar-fixed-top">
                     <div class="navbar-inner">
                         <div class="container">
-                            <a class="brand" href="">EMIF Catalogue</a>
+                            <a class="navbar-brand" href="">EMIF Catalogue</a>
                         </div>
                     </div>
                 </div>
@@ -92,39 +92,94 @@
                 The Internet browser you're currently using is not supported by the EMIF Catalogue. We currently only support I9-IE11, Chrome, Safari, Firefox and Opera. To be able to use our webpage we recommend you to update your Internet Explorer, or use another modern browser from the supported list.
             </div>
             <div style="display" class="supported">
-                <div class="navbar navbar-fixed-top">
-                    <div class="navbar-inner">
+                <div class="navbar navbar-default navbar-fixed-top">
                         <div class="container">
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            </a>
-                            <a class="brand" href="">EMIF Catalogue</a>
+                            <div class="navbar-header">
+                              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                              </button>
+                              <a class="navbar-brand" href="/">Emif Catalogue</a>
+                            </div>
                             {% if not readOnly %}
-                            <div class="nav-collapse collapse">
+                            <div class="collapse navbar-collapse">
                                 {% if request.user.is_authenticated %}
-                                <ul class="nav" style="margin-right: 0 !important;">
-                                    <li id="search_li" class="pull-left">
-                                        <form id="quicksearch" class="navbar-search pull-left" method="POST" action="resultsdiff/1">{% csrf_token %}
+                                        <form id="quicksearch" class="navbar-form navbar-left" method="POST" action="resultsdiff/1">
+                                            <div style="margin-top:3px;" class="form-group">
+                                        {% csrf_token %}
                                             {% if isAdvanced %}
                                             <input title="Enter the terms you wish to search for." class="search-query span2_5 form-text" placeholder="Search" type="text" id="edit-search-block-form--3" name="query" value="" size="25" maxlength="256">
                                             {% else %}
                                             <input title="Enter the terms you wish to search for." class="search-query span2_5 form-text" placeholder="Search" type="text" id="edit-search-block-form--3" name="query" value="{{search_old}}" size="25" maxlength="256">
                                             {% endif %}
                                             <input name='search_full' value='search_full' type='hidden'>
+                                            </div>
+                                        </form>
+                                {% endif %}
+
+                                    {% block headerlogin %}
+                                    {% if not request.user.is_authenticated %}
+                                    <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <form class="navbar-form navbar-right" method="post" action="accounts/signin/">
+                                            {% csrf_token %}
+                                            <input name="identification" class="signin-header-form-email" type="text" placeholder="Email">
+                                            <input name="password" class="signin-header-form-pass" type="password" placeholder="Password">
+                                            <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i>&nbsp;Sign in</button>
                                         </form>
                                     </li>
-                                </ul>
-                                {% endif %}
-                                <div class="pull-right">
-                                <ul class="nav">
-                                    {% if request.user.is_authenticated %}
-                                    <li id="li_workspace" style="padding-right: 5px;" class="dropdown">
+                                    </ul>
+                                    {% else %}
+                                    <ul class="nav navbar-nav navbar-right">
+                                    <li>
+                                        <div class="navbar-form navbar-right">
+                                            <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+                                            {% if not request.user.first_name and not request.user.last_name %}
+                                            <i class="icon-user"></i><small>&nbsp; {{request.user.username|ellipsis:30}} &nbsp;</small><i class="icon-angle-down"></i>
+                                            {% else %}
+                                            <i class="icon-user"></i><small>&nbsp; {{request.user.first_name|add:" "|add:request.user.last_name|ellipsis:30}} &nbsp;</small><i class="icon-angle-down"></i>
+                                            {% endif %}
+                                            </button>
+                                            <ul style="margin-top: -8px;" class="dropdown-menu">
+                                                {% show_profiles request.user %}
+                                                {% show_fingerprints_interests_profile request.user %}
+                                                <li class="divider"></li>
+                                                <li><a href="accounts/profile_edit/"><i class="icon-edit"></i>&nbsp;Edit Profile</a></li>
+                                                <li><a href="accounts/signout/"><i class="icon-signout"></i>&nbsp;Sign out</a></li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    </ul>
+                                    {% endif %}
+                                    
+                                    {% if not request.user.is_authenticated %}
+                                    <li>
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="margin-left: 2px;" tabindex="-1"><i class="icon-align-justify"></i></button>
+                                            <ul class="dropdown-menu pull-right">
+                                                
+                                                <li id="li_signup">
+                                                    <a href="accounts/signup/"><i class="fa fa-sign-in"></i>&nbsp;Sign up</a>
+                                                </li>
+                                                <li id="li_reset_password">
+                                                    <a href="accounts/password/reset/"><i class="fa fa-question"></i>&nbsp;Forgot your password?</a>
+                                                </li>
+                                                
+                                            </ul>
+                                            
+                                        </div>
+                                    </li>
+                                    {%endif%}
+                                    {% endblock %}
+                                {% if request.user.is_authenticated %}
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li id="li_workspace" class="dropdown">
                                         <a href="" class="dropdown-toggle" data-toggle="dropdown">Databases
                                         <b class="caret"></b>
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu multi-level" role="menu">
                                             <li class="dropdown-submenu">
                                                 <a href="" onclick="return false;">View</a>
                                                 <ul class="dropdown-menu">
@@ -140,37 +195,6 @@
                                                     </li>
                                                 </ul>
                                             </li>
-                                            
-                                            {% comment %}
-                                            <li>
-                                                <a href="databases">Edit Databases</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Query History</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Timeline</a>
-                                            </li>
-                                            {% endcomment %}
-                                            
-                                            {% comment %}
-                                            {% if request.user.is_superuser %}
-                                            <li class="divider"></li>
-                                            <li class="dropdown-submenu">
-                                                <a href="" onclick="return false;">Statistics</a>
-                                                <ul class="dropdown-menu">
-                                                    {% show_fingerprints_for_statistics %}
-                                                </ul>
-                                            </li>
-                                            {% endif %}
-                                            {% endcomment %}
-                                            
-                                            {% comment %}
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="databases">Subscribe interests</a>
-                                            </li>
-                                            {% endcomment %}
                                             
                                             <li class="divider"></li>
                                             <li class="dropdown-submenu">
@@ -200,74 +224,23 @@
                                             {% endcomment %}
                                         </ul>
                                     </li>
+                                    </ul>
                                     {% endif %}
-                                    {% block headerlogin %}
-                                    {% if not request.user.is_authenticated %}
-                                    <li>
-                                        <form class="navbar-form pull-right" method="post" action="accounts/signin/">
-                                            {% csrf_token %}
-                                            <input name="identification" class="signin-header-form-email" type="text" placeholder="Email">
-                                            <input name="password" class="signin-header-form-pass" type="password" placeholder="Password">
-                                            <button type="submit" class="btn btn-success"><i class="fa fa-sign-in"></i>&nbsp;Sign in</button>
-                                        </form>
-                                    </li>
-                                    {% else %}
-                                    <li>
-                                        <div class="btn-group">
-                                            <button class="btn btn-success dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-                                            {% if not request.user.first_name and not request.user.last_name %}
-                                            <i class="icon-user"></i><small>&nbsp; {{request.user.username|ellipsis:30}} &nbsp;</small><i class="icon-angle-down"></i>
-                                            {% else %}
-                                            <i class="icon-user"></i><small>&nbsp; {{request.user.first_name|add:" "|add:request.user.last_name|ellipsis:30}} &nbsp;</small><i class="icon-angle-down"></i>
-                                            {% endif %}
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                {% show_profiles request.user %}
-                                                {% show_fingerprints_interests_profile request.user %}
-                                                <li class="divider"></li>
-                                                <li><a href="accounts/profile_edit/" class="navbar-link"><i class="icon-edit"></i>&nbsp;Edit Profile</a></li>
-                                                <li><a href="accounts/signout/" class="navbar-link"><i class="icon-signout"></i>&nbsp;Sign out</a></li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    {% endif %}
-                                    
-                                    {% if not request.user.is_authenticated %}
-                                    <li>
-                                        <div class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="margin-left: 2px;" tabindex="-1"><i class="icon-align-justify"></i></button>
-                                            <ul class="dropdown-menu pull-right">
-                                                
-                                                <li id="li_signup">
-                                                    <a href="accounts/signup/"><i class="fa fa-sign-in"></i>&nbsp;Sign up</a>
-                                                </li>
-                                                <li id="li_reset_password">
-                                                    <a href="accounts/password/reset/"><i class="fa fa-question"></i>&nbsp;Forgot your password?</a>
-                                                </li>
-                                                
-                                            </ul>
-                                            
-                                        </div>
-                                    </li>
-                                    {%endif%}
-                                    {% endblock %}
-                                </ul>
-                                </div>
                             </div>
                             
                             {% endif %}
 
-                            <!--/.nav-collapse -->
+                            <!--/.navbar-collapse -->
                         </div>
-                    </div>
+                    
                 </div>
                 <div style="padding-top: 60px;" class="container">
                     {% if breadcrumb %}
                     {% block breadcrumbs %}
-                    {% breadcrumb "Databases" "databases" %}
+                        {% breadcrumb "Databases" "databases" %}
                     {% endblock %}
                     <div class="pull-left">
-                        {% render_breadcrumbs %}
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap3.html" %}
                     </div>
                     {% endif %}
                     <div class="pull-right">

@@ -71,19 +71,18 @@
 
         <body>
             <div class="container">
-                <div class="row-fluid">
-                    <div class="span8 offset2 panel">
+                    <div class="col-md-8 col-md-offset-2 panel">
                         <div class="inside">
                             <p><img src="{{STATIC_URL}}img/emif_logo_trans.png"/></p>
                             <h1>EMIF Catalogue</h1>
 
                             <p class="lead">{% slogan %}</p>
-                            <form action="accounts/signin/" id="signin_form" class="margin-base-vertical" method="post">
+                            <form class="col-md-6 col-md-offset-3" action="accounts/signin/" id="signin_form" role="form" method="post">
                                 {% csrf_token %}
                                 
 
 
-                                <div style="position: relative; float: none; margin: auto;" class="span6">
+                                <div style="position: relative; float: none; margin: auto;">
                                 <table style="width: 100%;">
                                     <tr><td style="text-align: left;"><h3>Sign in</h3></td>
                                     <td style="text-align: right;"> <small><a href="{% url 'userena_signup' %}">create a new account</a></small></td></tr>
@@ -91,34 +90,26 @@
                                 </table>
                                 </div>
                                 
-                                <div style="clear: both;" class="control-group">
-                                    <div class="controls">
-                                        <input class="span6" name="identification" class="signin-header-form-email" type="text" placeholder="Email">
-                                    </div>
+                                <div class="form-group">
+                                        <input name="identification" class="form-control signin-header-form-email" type="text" placeholder="Email">
                                 </div>
-                                <div class="control-group">
-                                    <div class="controls">
-                                      <input class="span6" name="password" class="signin-header-form-pass" type="password" placeholder="Password">
-                                  </div>
+                                <div class="form-group">
+                                      <input name="password" class="form-control signin-header-form-pass" type="password" placeholder="Password">
                               </div>
-                              <div class="control-group">
-                                <div class="controls">
+                              <div class="form-group">
                                   <input id="id_remember_me" type="hidden" class="checkboxinput" name="remember_me" />
-                              </div>
                           </div>
                           <p><small><a href="accounts/password/reset/">Forgot your password?</a></small></p>
-                          <div class="control-group">
-                            <div class="controls">
+                          <div class="form-group">
                       <!--<label class="checkbox">
                         <input type="checkbox"> Remember me
                     </label>-->
-                    <button style="position: relative; float: none; margin: auto;" type="submit" class="span6 btn btn-success btn-large">Sign in</button>
-                </div>
+                    <button style="width: 100%;" type="submit" class="col-md-6 btn btn-success btn-large">Sign in</button>
             </div>
             {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
         </form>
     </div>
-    <div class="inside2">
+    <div class="col-md-10 inside2">
         <hr>
         <p><small><a href="about">About</a>&nbsp; | &nbsp;<a href="feedback">Feedback</a></small></p>
         <p class="muted credit"><small>&copy; EMIF Catalogue v{% get_version %}</small></p>
@@ -126,10 +117,9 @@
     </div>
 </div>
 </div>
-</div>
 <!--<div class="navbar navbar-fixed-bottom"><div class="container">
-    <div class="row-fluid">
-        <div class="span8 offset2 panel2">
+    <div class="row">
+        <div class="col-md-8 offset2 panel2">
             <div class="inside2">
 
             

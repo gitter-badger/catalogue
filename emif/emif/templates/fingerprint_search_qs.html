@@ -80,7 +80,7 @@
 
                 {% if question.text|geths == 'h1' %}
 
-                    <!-- If has already appear another h1 before close accordion-group -->
+                    <!-- If has already appear another h1 before close panel panel-default -->
                     {% if h1_already.value == '1' %}
 
                        </div>
@@ -90,8 +90,8 @@
                     {% endif %}
                     <!-- missing accordio here -->
                     <div class="accordion" id="accordion_{{ questions_list.0.0.sortid }}">
-                    <div class="accordion-group {{qdict.depon_class}}" id="acc_qc_{{ question.number }}" {{qdict.checkstring|safe}}>
-                        <div class="accordion-heading">
+                    <div class="panel panel-default {{qdict.depon_class}}" id="acc_qc_{{ question.number }}" {{qdict.checkstring|safe}}>
+                        <div class="panel-heading">
                             {% if request.user.is_staff %}
                                 <span class="pull-right"> <a href="admin/questionnaire/question/{{ question.id }}/">
                                     <i class="icon-pencil">&nbsp;</i>
@@ -150,8 +150,8 @@
 
                                     </a>
                             </div>
-                                    <div style="overflow: visible;" id="div_{{ iteratorQ.value }}" class="accordion-body in collapse">
-                                        <div class="accordion-inner">
+                                    <div style="overflow: visible;" id="div_{{ iteratorQ.value }}" class="panel-collapse in collapse">
+                                        <div class="panel-body">
                                  {% endif %}
                                 <div class="answer qtext_{{question.text|geths}}" id="answer_{{ question.number }}">
                                     {% if error %}
@@ -244,10 +244,10 @@ $(function(){
     tabindexer();
 
 
-    $(".accordion-group").on("shown",".collapse",function() {
+    $(".panel panel-default").on("shown",".collapse",function() {
         $(this).css("overflow","visible");
     });
-    $(".accordion-group").on("hidden",".collapse",function() {
+    $(".panel panel-default").on("hidden",".collapse",function() {
         $(this).css("overflow","hidden");
     });    
 });    

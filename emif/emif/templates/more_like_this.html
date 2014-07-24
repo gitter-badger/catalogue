@@ -174,7 +174,7 @@
       <div class="navbar" id="loading">
 
         <div class="navbar-inner hoverDiv">
-          <div class="row-fluid hoverDiv">
+          <div class="row hoverDiv">
             <div class="pull-left span6" style="text-align:left">
               <a href="fingerprint/{{ result.id }}/1">
                 <span class="label label-success" style="font-size:15px">{{ result.name }}</span>
@@ -412,7 +412,7 @@ $('[rel=tooltip]').tooltip({container: 'body', 'html': true});
 $('.popover').popover({
     container: 'body'
 });
-$('.accordion-body.collapse').hover(
+$('.panel-collapse.collapse').hover(
 function () {
 $(this).css('overflow','visible');
 }, 

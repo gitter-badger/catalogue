@@ -66,7 +66,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "emif.context_processors.debug",
-    "emif.context_processors.baseurl"
+    "emif.context_processors.baseurl",
+    "django.core.context_processors.request",
 )
 
 MANAGERS = ADMINS
@@ -273,7 +274,7 @@ INSTALLED_APPS = (
     'population_characteristics',
     'literature',
     'django_bootstrap_breadcrumbs',
-    'bootstrap-pagination',
+    'bootstrap_pagination',
     'django_jenkins',
 
     # Django NVD3

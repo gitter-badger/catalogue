@@ -64,13 +64,10 @@
 {% if isAdvanced %}
 <div id="bool_container"></div>
 {% endif %}
-  <div id="row_loading" class="row">
-
-
   {% if results %}
-    <div class="span12 clearboth" style="text-align:center">
-      <div class="navbar" id="loading">
-        <div class="navbar-inner">
+    <div class="clearboth" style="text-align:center">
+      <div class="navbar navbar-default" id="loading">
+        <div class="container">
 
           <h4>
               <span id="results_size"></span>
@@ -87,7 +84,7 @@
       </div>
     </div>
     {% endif %}
-    </div>
+
     {% if page_obj != None %}
     <form id="compare_form" action="resultscomp" method="POST">
       {% csrf_token %}
@@ -129,22 +126,22 @@
         </tr>
         <tr>
           <td class="table_filter">
-                <input class="filter_input" id="database_name_filter" type="text" value="{{sort_params.database_name.filter}}" placeholder="Filter">
+                <input class="filter_input form-control" id="database_name_filter" type="text" value="{{sort_params.database_name.filter}}" placeholder="Filter">
           </td>
            <td class="table_filter">
-                 <input class="filter_input" id="institution_filter" type="text" value="{{sort_params.institution.filter}}" placeholder="Filter">
+                 <input class="filter_input form-control" id="institution_filter" type="text" value="{{sort_params.institution.filter}}" placeholder="Filter">
           </td>
           <td class="table_filter">
-                 <input class="filter_input" id="location_filter" type="text" value="{{sort_params.location.filter}}" placeholder="Filter">
+                 <input class="filter_input form-control" id="location_filter" type="text" value="{{sort_params.location.filter}}" placeholder="Filter">
           </td>
           <td class="table_filter">
-                 <input class="filter_input" id="nrpatients_filter" type="text" value="{{sort_params.nrpatients.filter}}" placeholder="Filter">
+                 <input class="filter_input form-control" id="nrpatients_filter" type="text" value="{{sort_params.nrpatients.filter}}" placeholder="Filter">
           </td>
           <td class="table_filter">
-                 <input class="filter_input" id="last_update_filter" type="text" value="{{sort_params.last_update.filter}}" placeholder="Filter">
+                 <input class="filter_input form-control" id="last_update_filter" type="text" value="{{sort_params.last_update.filter}}" placeholder="Filter">
           </td>
            <td class="table_filter">
-              <select id="type_filter" class="selectpicker" def_value="{{sort_params.type.filter}}">
+              <select id="type_filter" class="selectpicker form-control" def_value="{{sort_params.type.filter}}">
                 <option value="">None</option>
                 <option value="adcohort">AD Cohort</option>
                 <option value="observationaldatasources">Observational Data</option>
@@ -177,8 +174,8 @@
           <td class="type">{{ t.type_name }} </td>
           
         
-          <td class="select_line"> <input class="checkbox dbtype_{{t.type_name|removespaces}}" type="checkbox" 
-          typedb="{{ t.type_name }}" name="chk_{{ t.id }}"></td>
+          <td class="select_line"><center><input class="checkbox dbtype_{{t.type_name|removespaces}}" type="checkbox" 
+          typedb="{{ t.type_name }}" name="chk_{{ t.id }}"></center></td>
           
         </tr>
 
@@ -188,7 +185,7 @@
       <div class="navbar" id="loading">
 
         <div class="navbar-inner hoverDiv">
-          <div class="row-fluid hoverDiv">
+          <div class="row hoverDiv">
             <div class="pull-left span6" style="text-align:left">
               <a href="fingerprint/{{ result.id }}/1">
                 <span class="label label-success" style="font-size:15px">{{ result.name }}</span>

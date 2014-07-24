@@ -58,7 +58,7 @@ select,textarea, /*input*/,code,pre{behavior:url({{ STATIC_URL }}js/vendor/PIE.h
 .label{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
 .badge{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
 .progress{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
-.accordion-group{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
+.panel panel-default{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
 .carousel-indicators li{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
 .jumbotron{behavior:url({{ STATIC_URL }}js/vendor/PIE.htc)}
 .gt-ie7 .boolrelwidget-query-box-outer{
