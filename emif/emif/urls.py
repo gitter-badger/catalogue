@@ -103,7 +103,8 @@ urlpatterns = patterns('',
     url(r'^results$', 'emif.views.results_fulltext'),
 
     #Statistics
-    url(r'^statistics/(?P<questionnaire_id>[0-9]+)/(?P<question_set>[0-9]+)/$', 'emif.views.statistics'),
+    #url(r'^statistics/(?P<questionnaire_id>[0-9]+)/(?P<question_set>[0-9]+)/$', 'emif.views.statistics'),
+    url(r'^statistics/', include('statistics.urls')),
     # url(r'^statistics$', 'emif.views.statistics'),
 
     url(r'^geo$', 'emif.views.geo'),

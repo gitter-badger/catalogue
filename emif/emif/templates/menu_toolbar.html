@@ -13,6 +13,11 @@
 		{% if request.user.is_authenticated %}
 		<!--div class="btn-group" id="group_toolbar"-->
 
+      {% if results or databases or alldatabases or fingerprint_dump%}
+      <a class="btn btn statistics" id="statistics_tool"> <i class="fa fa-signal"></i>
+        Statistics
+      </a>
+      {% endif %}
       {% if fingerprint_dump %}
       <a class="btn btn morelikethis" href="mlt/{{fingerprint_id}}" id="morelikethis_toolbar"> <i class="icon-search icon"></i>
         More Like This
@@ -278,7 +283,6 @@ This is an invitation sent by {{request.user.first_name }} {{request.user.last_n
 </form>
 
 <script>
-
 
 /***************************************************************
 ************** Delete ******************************************

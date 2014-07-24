@@ -156,7 +156,6 @@ else:
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = BASE_URL+'static/'
 
-
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
@@ -170,6 +169,7 @@ STATICFILES_DIRS = (
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'advancedsearch/static'),
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'public/static'),
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'accounts/static'),
+    os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'statistics/static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -224,6 +224,7 @@ TEMPLATE_DIRS = (
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'docs_manager/templates'),
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'advancedsearch/templates'),
     os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'public/templates'),
+    os.path.abspath(PROJECT_DIR_ROOT + MIDDLE_DIR + 'statistics/templates'),
 )
 
 INSTALLED_APPS = (
@@ -293,7 +294,12 @@ INSTALLED_APPS = (
 
     # unique views counter
     'hitcount',
+
+    #statistics questionary
+    'statistics',
+
 )
+
 
 # Userena settings
 
