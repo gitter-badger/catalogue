@@ -14,7 +14,7 @@
 		<!--div class="btn-group" id="group_toolbar"-->
 
       {% if results or databases or alldatabases or fingerprint_dump%}
-      <a class="btn btn statistics" id="statistics_tool"> <i class="fa fa-signal"></i>
+      <a class="btn btn statistics" id="statistics"> <i class="fa fa-signal"></i>
         Statistics
       </a>
       {% endif %}
@@ -36,7 +36,7 @@
            <span class="caret"></span>
          </a>
          <ul class="dropdown-menu">
-            <li><a id="comparabtn"  href=""  rel="tooltip" data-container="body" data-placement="right" data-original-title="This allows to compare databases.<br /> It is only possible to compare databases of the same type. <br /> When a database is selected, the type is defined automatically, and databases of other types can't be choosen. <br /> To be able to select other type, you must unselect all the databases." disabled> 
+            <li><a id="comparabtn"  href=""  rel="tooltip" data-container="body" data-placement="right" data-original-title="This allows to compare databases.<br /> It is only possible to compare databases of the same type. <br /> When you choose a database, the type is defined automatically, and databases of other types can't be choosen. <br /> If you want to choose other type of databases, you must only choose databases of this type." disabled> 
            <i class="fa fa-columns"></i>&nbsp; Databases</a>
            </li>
            <li><a id="comparabtnPC"  href=""  rel="tooltip" data-container="body" data-placement="right" data-original-title="This allows to compare databases.<br /> It is only possible to compare databases of the same type. <br /> When a database is selected, the type is defined automatically, and databases of other types can't be choosen. <br /> To be able to select other type, you must unselect all the databases." disabled> 
@@ -295,6 +295,7 @@ $('#modal-from-dom').bind('show', function() {
 
     removeBtn.attr('href', href.replace('ref', '' + id));
 });
+
 
 
 $('.confirm-delete').click(function(e) {
