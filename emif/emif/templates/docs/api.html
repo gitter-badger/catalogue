@@ -180,4 +180,8 @@ margin-top: 28px;
 {% endblock %}
 
 {% block scriptextra %}
+    $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
 {% endblock %}
