@@ -54,17 +54,8 @@ Looking forward to your input.
 
 {% endblock %}
 
- {% block scriptextra %}
-    {% comment %}
-    <script>
-        {% endcomment %}
-
-        $('#li_feedback').addClass("active");
-
-        {% comment %}
-    </script>
-    {% endcomment %}
-
-    {% endblock %}
+{% block scriptextra %}
+    $('#li_feedback').addClass("active");
+{% endblock %}
 
 

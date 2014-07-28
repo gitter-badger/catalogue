@@ -139,39 +139,7 @@
                                                         <a href="public/fingerprint">Private Links</a>
                                                     </li>
                                                 </ul>
-                                            </li>
-                                            
-                                            {% comment %}
-                                            <li>
-                                                <a href="databases">Edit Databases</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Query History</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Timeline</a>
-                                            </li>
-                                            {% endcomment %}
-                                            
-                                            {% comment %}
-                                            {% if request.user.is_superuser %}
-                                            <li class="divider"></li>
-                                            <li class="dropdown-submenu">
-                                                <a href="" onclick="return false;">Statistics</a>
-                                                <ul class="dropdown-menu">
-                                                    {% show_fingerprints_for_statistics %}
-                                                </ul>
-                                            </li>
-                                            {% endif %}
-                                            {% endcomment %}
-                                            
-                                            {% comment %}
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="databases">Subscribe interests</a>
-                                            </li>
-                                            {% endcomment %}
-                                            
+                                            </li>                                         
                                             <li class="divider"></li>
                                             <li class="dropdown-submenu">
                                                 <a href="" onclick="return false;">Add New</a>
@@ -191,13 +159,6 @@
                                                     <li><a tabindex="-1" href="advsearch/history">Search History</a></li>
                                                 </ul>
                                             </li>
-                                            {% comment %}
-                                            <li class="divider"></li>
-                                            <li>{% if request.user.is_superuser %}
-                                                <a href="import-questionnaire">Import Questionnaire</a>
-                                                {% endif %}
-                                            </li>
-                                            {% endcomment %}
                                         </ul>
                                     </li>
                                     {% endif %}
@@ -300,12 +261,6 @@
         <!-- /container -->
         <script src="{{ STATIC_URL }}js/main.js"></script>
         <!-- backbone -->
-        {% comment %}
-        <script type="text/javascript" src="{{ STATIC_URL }}contrib/backbone/ICanHaz.min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}contrib/backbone/json2.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}contrib/backbone/underscore-min.js"></script>
-        <script type="text/javascript" src="{{ STATIC_URL }}contrib/backbone/backbone-min.js"></script>
-        {% endcomment %} 
         {% block scriptextraincludes %} 
         {% endblock %}
         <script type="text/javascript">

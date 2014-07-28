@@ -55,13 +55,6 @@ All provided data are still provisional. We make no warranty and cannot be held 
     <a class="btn btn-medium btn-success" href="accounts/signup/">Sign up for EMIF Fingerprint Browser</a>
     {% endif %}
 <div style="padding-top:20px">
-{% comment %}
-<p>
-  
-    <iframe width="560" height="315" src="http://www.youtube.com/embed/T7jWD-JjM8Q" frameborder="0" allowfullscreen></iframe>
-
-</p>
-{% endcomment %}
 </div>
   </div>
 
@@ -72,17 +65,6 @@ All provided data are still provisional. We make no warranty and cannot be held 
       <h4>European Medical Information Framework</h4>
       <p>The EMIF project aims to develop a common information framework of patient-level data that will link up and facilitate access to diverse medical and research data sources, opening up new avenues of research for scientists. To provide a focus and guidance for the development of the framework, the project will focus initially on questions relating to obesity and Alzheimer’s disease.</p>
       <p><a class="btn btn-small" href="http://www.emif.eu" target="_blank">Read more &raquo;</a></p>
-      
-      {% comment %}
-<a class="btn btn-medium btn-success" href="http://www.emif.eu" target="_blank">Learn more about the project &raquo;</a>
-      <h4>Answer the sample questionnaire</h4>
-      <p>
-        Start by answering the sample <a href="take/1/">questionnaire</a>.
-        {% if not request.user.is_authenticated %}
-        You need to be <a href="{% url 'userena_signin' %}">signed in</a>, so if you don't have an account, <a href="{% url 'userena_signup' %}">sign up</a> now.
-        {% endif %}
-      </p>
-      {% endcomment %}
     </div>
 
     <div class="span6" style="text-align:center; padding-top: 40px">

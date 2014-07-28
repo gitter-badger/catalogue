@@ -57,9 +57,6 @@ display: none;
         <div class="pull-left">Type</div>
         <div class="pull-right"><i class="{{sort_params.type.icon}}"></i></div>
       </th>
-      {% comment %}
-      <th class="sorter-false filter-false">Modify</th>
-      {% endcomment %}
     </tr>
     <tr>
       <td class="table_filter">
@@ -110,13 +107,6 @@ display: none;
         {% endif %}
       </td>
       <td class="type">{{ t.type_name }} </td>
-      {% comment %}
-      <td style="width:100px">
-        <a  href="dbEdit/{{t.id}}/{{t.ttype}}" title="Edit Database"><img src="{{ STATIC_URL }}img/glyphicons_150_edit.png"  /></a>
-        <a href="#" onclick="return false;"  class="confirm-delete" data-id="{{ t.id }}" data-name="{{ t.name }}" title="Remove Database"><img src="{{ STATIC_URL }}img/glyphicons_192_circle_remove.png"/></a>
-        <a href="#" onclick="return false;" class="sharedb" data-id="{{ t.id }}" title="Share Database" ><img src="{{ STATIC_URL }}img/glyphicons_308_share_alt.png"/></a>
-      </td>
-      {% endcomment %}
     </tr>
     {% endfor %}
   </tbody>
@@ -134,9 +124,6 @@ a = new PaginatorSorter("table_databases", '{{sort_params.base_filter}}', '{{sor
   <strong>Info: </strong> Currently, there are no databases in your account. You can add new ones through the option "Database -> New"
 </div>
 {% endif %}
-{% comment %}
-<a class="btn btn-large btn-success" href="advancedSearch/1">Add new database</a>
-{% endcomment %}
 
 <form id="send2" method="POST" >
 <input id="page" type="hidden" name="page" value="{{page}}" />
@@ -149,11 +136,6 @@ a = new PaginatorSorter("table_databases", '{{sort_params.base_filter}}', '{{sor
 {% csrf_token %}
 </form>
 {% endblock %}
+
 {% block scriptextra %}
-{% comment %}
-<script>
-{% endcomment %}
-{% comment %}
-</script>
-{% endcomment %}
 {% endblock %}
