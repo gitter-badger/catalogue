@@ -38,9 +38,11 @@ EMIF Platform - Fingerprint Browser
 
 5.  Install and Configure Apache-solr
         
-        sudo apt-get -y install solr-tomcat
+        sudo wget http://apache.mirrors.hoobly.com/lucene/solr/4.9.0/solr-4.9.0.tgz
 
-        Go to folder /conf/solr/ and copy all the files to the solr default core configuration 
+        tar xvf solr*tgz
+
+        Go to folder (project)/conf/solr/ and copy all the files to solr-4.9.0/example/solr/collection1/conf     
 
 
 6.  Install and Configure PostgreSQL
@@ -48,10 +50,12 @@ EMIF Platform - Fingerprint Browser
         1)  sudo apt-get install postgresql
 
         2)  sudo su postgres
+            psql
                 CREATE ROLE user superuser;
                 CREATE USER emif_dev;
                 GRANT user To emif_dev;
                 ALTER ROLE user WITH LOGIN;
+                ALTER USER emif_dev WITH PASSWORD 'emif'
 
 
 7.  Install RabbitMQ
@@ -104,7 +108,7 @@ EMIF Platform - Fingerprint Browser
 
 15. Create '~/pgpass' file and insert:
 
-        localhost:5432:*:emif_dev:emif_dev
+        localhost:5432:*:emif_dev:emif
 
 
 16. Change permission mode of pgpass file
@@ -118,17 +122,15 @@ EMIF Platform - Fingerprint Browser
 
     NOTE: git must be in environment variables and PIP have to be installed.
 
-18. Create a script file
+18. Create a script file(../emif/emif/local_settings.py)
 
-        copy code from: https://gist.github.com/bastiao/c8d3be799dc7c257f01a and paste in conf/ folder
-
-        run the script
+        Go to https://github.com/bioinformatics-ua/emif-fb/wiki/Loading-Database and execute this commands
 
 19. Run
 
         python manage.py syncdb
         python manage.py migrate
-        python manage.py loaddata emif\fixtures\emif_questionary_1.yaml
+        python manage.py index_all
         python manage.py runserver
 
   
