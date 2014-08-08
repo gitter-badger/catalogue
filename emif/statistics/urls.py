@@ -28,6 +28,6 @@ urlpatterns = patterns('',
     #url(r'^dbDetailed/(?P<fingerprint_id>[^/]+)/(?P<questionnaire_id>[0-9]+)$', 'emif.views.database_detailed_view'),
     url(r'^index$', 'statistics.views.index'),
     url(r'^teste$', 'statistics.views.teste'),
-    url(r'^dbStatistics/(?P<questionnaire_id>[0-9]+)/$', 'statistics.views.database_statistics_view'),
-    url(r'^dbStatistics/(?P<questionnaire_id>[0-9]+)/(?P<sort_id>[0-9]+)/$', 'statistics.views.database_statistics_view_dl'),
+    url(r'^example$', 'statistics.views.example'),
+    url(r'^dbStatistics$', 'statistics.views.database_statistics_view'),
 )

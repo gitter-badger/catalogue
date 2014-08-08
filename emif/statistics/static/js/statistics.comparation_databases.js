@@ -1,47 +1,33 @@
 $(document).ready(function(){
 
-    $("#statistics").bind('click',function(event)
+    $("#adCohortBtn").bind('click',function(event)
         { 
-          console.log("OLA");
-          event.preventDefault();
-
-          postStatisticsDatabases();
-          return false;
+            event.preventDefault();
+            postStatisticsDatabases("AD Cohort");
+            return false;
         });
-
+    $("#obsDataBtn").bind('click',function(event)
+        { 
+            event.preventDefault();
+            postStatisticsDatabases("Observational Data Sources");
+            return false;
+        });
 });
 
 //when you invocke the "statistics" button
-function postStatisticsDatabases(){
-    $('#compare_form').attr('action', 'statistics/dbStatistics');
+function postStatisticsDatabases(type){
+    $('#compare_form').attr('action', 'statistics/example');
     console.log("sim");
-    postComparisonStatistics(false);
-
-   return true; 
+    postComparisonStatistics(type);
+    return true; 
 };
 
-//load the checkboxs selected
-function postComparisonStatistics(isdbs){
-  //$('#result_form').submit();
-  //console.log('A: '+a);
-  //console.log('A-plugin: '+a.plugin);
+//identify type of database
+function postComparisonStatistics(type){
   if(a != undefined && a.plugin != undefined){
-    $('#comparedbs').html('');
-
-    var dbs = a.plugin.getExtraObjects().selectedList;
-    //console.error(dbs.length);
-
-    for(var i=0;i<dbs.length;i++){
-      $('#comparedbs').append('<input type="checkbox" name="chks_'+dbs[i]+'" checked>');
-    }
-    var ids = []; 
-    $('[name^="chks_"]').each(function(){
-
-      var id = $(this).attr('name').split('_')[1];
-      ids.push(id);
-      
-    });
-    $('#submitdbsimulate').click();
+      $('#comparedbs').html('');
+      $('#comparedbs').append('<input type="checkbox" name="chks_'+type+'" checked>');
+      $('#submitdbsimulate').click();
   }
 
 }

@@ -14,9 +14,21 @@
 		<!--div class="btn-group" id="group_toolbar"-->
 
       {% if results or databases or alldatabases or fingerprint_dump%}
-          <a class="btn btn statistics" id="statistics"> <i class="fa fa-signal"></i>
-              Statistics
-          </a>
+          <div class="btn btn-group">
+              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" id="statistics_list_toolbar">
+                  <i class="fa fa-signal"></i> Statistics<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                  <li>
+                      <a id="adCohortBtn"  href=""  rel="tooltip" data-container="body" data-placement="right" data-original-title="" disabled> 
+                      <i class="fa fa-columns"></i>&nbsp; AD Cohort</a>
+                 </li>
+                 <li>
+                      <a id="obsDataBtn"  href=""  rel="tooltip" data-container="body" data-placement="right" data-original-title="" disabled> 
+                      <i class="fa fa-users"></i>&nbsp; Observational Data</a>
+                 </li>
+              </ul>
+          </div>         
       {% endif %}
       {% if fingerprint_dump %}
           <a class="btn btn morelikethis" href="mlt/{{fingerprint_id}}" id="morelikethis_toolbar"> <i class="icon-search icon"></i>

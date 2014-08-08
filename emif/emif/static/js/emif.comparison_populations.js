@@ -44,12 +44,9 @@ $(document).ready(function(){
 
     $("#comparabtnPC").bind('click',function(e)
         { 
-
-        event.preventDefault();
-
-
-          postComparisonPopulations();
-          return false;
+        	event.preventDefault();
+      		postComparisonPopulations();
+        	return false;
         });
 
 });

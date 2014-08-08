@@ -37,6 +37,7 @@ from questionnaire.models import *
 
 from fingerprint.services import *
 from fingerprint.models import *
+from fingerprint.models import Answer
 from fingerprint.tasks import anotateshowonresults
 
 from emif.views import createqsets, createqset, get_api_info, getPermissions, attachPermissions, merge_highlight_results
@@ -178,8 +179,121 @@ def index(request, template_name='statistics1.html'):
                                            'breadcrumb': True, 'isAdvanced': isAdvanced})
 
 
-def database_statistics_view(request, questionnaire_id, template_name='statistics_qs.html'):
-    return database_statistics_view_dl(request, questionnaire_id, "1", template_name)
+def database_statistics_view(request, template_name='example.html'):
 
-def database_statistics_view_dl(request, questionnaire_id, sort_id, template_name='statistics_qs.html'):
-    return render(request, template_name, {'request': request,'breadcrumb': True});
+    type = None
+    print request.POST
+    print "Tiago"
+
+    for entry in request.POST:
+        if "chks_" in entry:
+            type = entry.split("_")[1]
+
+    quest = Questionnaire.objects.get(name=type)
+    print quest
+
+    fp = Fingerprint.objects.filter(questionnaire=quest)
+    print fp
+
+    qs_list = QuestionSet.objects.filter(questionnaire=quest.id)
+    
+    #for question in qs_list:
+    #    print question.text
+
+    question_set = None
+    try:
+        question_set = qs_list.get(sortid=1)
+    except:
+        raise Http404
+
+    qreturned = []
+    for x in question_set.questionnaire.questionsets():
+        ttct = x.total_count()
+        ans = 0
+        percentage = 0
+        qreturned.append([x, ans, ttct, percentage])
+
+    return render(request, template_name, {'request': request, 'name': quest.name,
+                                'questinnaire_id': quest.id, 'breadcrumb': True,
+                                'questionset': question_set,'questionsets': qreturned});
+
+
+def example(request, template_name='example.html'):
+    
+    type = None
+    print request.POST
+    #print "Tiago"
+
+    for entry in request.POST:
+        if "chks_" in entry:
+            type = entry.split("_")[1]
+
+    quest = Questionnaire.objects.get(name=type)
+    #print quest
+
+    fp = Fingerprint.objects.filter(questionnaire=quest)
+    #print fp
+
+    qs_list = QuestionSet.objects.filter(questionnaire=quest.id)
+    
+    #for question in qs_list:
+    #    print question.text
+
+    question_set = None
+    try:
+        question_set = qs_list.get(sortid=1)
+    except:
+        raise Http404
+
+    qreturned = []
+    for x in question_set.questionnaire.questionsets():
+        ttct = x.total_count()
+        ans = 0
+        percentage = 0
+        qreturned.append([x, ans, ttct, percentage])
+
+    return render(request, template_name, {'request': request, 
+                'name': quest.name, 'questinnaire_id': quest.id,
+                'breadcrumb': True, 'questionsets': qreturned,
+                'questionset': question_set});
+
+    '''all_answers = None
+    questionnaire = None
+    for db in dbs:
+        try:
+            fp = Fingerprint.objects.get(fingerprint_hash=db)
+            
+            fp_answers = Answer.objects.filter(fingerprint_id=fp)
+            ,question__questionset=
+            if all_answers == None:
+                questionnaire = fp.questionnaire
+                all_answers = fp_answers
+            else:
+                all_answers = all_answers | fp_answers
+
+        except Fingerprint.DoesNotExist:
+            pass
+    
+    qs_list = QuestionSet.objects.filter(questionnaire=questionnaire.id)
+    question_set = None
+    try:
+        question_set = qs_list.get(sortid=1)
+    except:
+        raise Http404
+
+    qreturned = []
+    for x in question_set.questionnaire.questionsets():
+        ttct = x.total_count()
+        ans = 0
+        percentage = 0
+        qreturned.append([x, ans, ttct, percentage])
+    
+    return render(request, template_name, {'request': request, 
+                                'name': questionnaire.name,
+                                'questioonset': question_set,
+                                'questinnaire_id': questionnaire.id,
+                                'questionsets': qreturned,
+                                'dbs': dbs,
+                                'breadcrumb': True,
+
+                            });'''

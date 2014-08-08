@@ -261,7 +261,8 @@ QsType = {
     ADD: 0,
     EDIT: 1,
     VIEW: 2,
-    SEARCH: 3
+    SEARCH: 3,
+    STATISTICS: 4
 }
 
 function findQsPath(mode) {
@@ -280,15 +281,18 @@ function findQsPath(mode) {
 }
 
 function findPath(mode) {
-    var path = ""
+    var path = "";
     if (mode == QsType.ADD)
         path = "add/";
     else if (mode == QsType.EDIT)
-        path = "dbEdit/"
+        path = "dbEdit/";
     else if (mode == QsType.VIEW)
-        path = "dbDetailed/"
+        path = "dbDetailed/";
     else if (mode == QsType.SEARCH) {
-        path = "advancedSearch/"
+        path = "advancedSearch/";
+    }
+    else if (mode == QsType.STATISTICS) {
+        path = "statistics/dbStatistics/";
     }
 
     return path;
@@ -297,23 +301,33 @@ function findPath(mode) {
 function loadqspart(fingerprint, pk, sortid, mode) {
 
     var path = findQsPath(mode);
-
+    console.log("path:"+path);
     console.log(path + fingerprint + "/" + pk + "/" + sortid + "/");
 
-    if (sortid != null) {
-        console.log($("#qs_" + pk));
-        $.get(path + fingerprint + "/" + pk + "/" + sortid + "/", function(data) {
-            if (mode == QsType.SEARCH) {
+    if ( mode == QsType.STATISTICS){
+        if (sortid != null) {
+            $.post("statistics/dbStatistics/" + fingerprint + "/" + sortid + "/", { fingerprints : $('#formfingerprints').serialize()}, function(data) {
+                    $("#qs_" + sortid).html(data);
+            });
+        } else
+            $.post("statistics/dbStatistics/" + fingerprint + "/", { fingerprints : $('#formfingerprints').serialize()}, function(data) {
+                $("#qs_1").html(data);
+        });
+    } else {
+        if (sortid != null) {
+            console.log($("#qs_" + pk));
+            $.get(path + fingerprint + "/" + pk + "/" + sortid + "/", function(data) {
+                if (mode == QsType.SEARCH) {
+                    $("#qs_" + pk).html(data);
+                } else {
+                    $("#qs_" + sortid).html(data);
+                }
+            });
+        } else
+            $.get(path + fingerprint + "/" + pk + "/", function(data) {
                 $("#qs_" + pk).html(data);
-            } else {
-                $("#qs_" + sortid).html(data);
-            }
-        });
-    } else
-        $.get(path + fingerprint + "/" + pk + "/", function(data) {
-            $("#qs_" + pk).html(data);
-        });
-
+            });
+    }
 }
 var errornavigator;
 
@@ -326,11 +340,11 @@ function initQsEnv(fingerprint_id, q_id, sortid, mode) {
 
     loadqspart(fingerprint_id, q_id, sortid, mode);
 
-    if (mode == QsType.VIEW) {
+    if (mode == QsType.VIEW || mode == QsType.STATISTICS) {
         advValidator.searchMode(true);
     }
-
-    initialCounterSetup();
+    if(mode != QsType.STATISTICS)
+        initialCounterSetup();
 
     if (!(window.history && history.pushState)) {
         page = History.getState().hash.split('/')[2];
@@ -371,7 +385,7 @@ function questionsets_handle(id_questionset, fingerprint_id, q_id, mode) {
 
         if (list_invalid.length == 0) {
 
-            if (formHasChanged && (mode != QsType.VIEW) && mode != QsType.SEARCH) {
+            if (formHasChanged && (mode != QsType.VIEW) && mode != QsType.SEARCH && mode != QsType.STATISTICS) {
                 // If its not the first or last
                 if (current_form.length != 0 && id[1] != '0' && id[1] != '99') {
 
@@ -424,10 +438,12 @@ function questionsets_handle(id_questionset, fingerprint_id, q_id, mode) {
                             }
                         }
                         else{
-                            if (mode == QsType.EDIT)
+                            /*f (mode == QsType.EDIT)
                                 History.pushState(null, null, findPath(mode)+ fingerprint_id +"/" + q_id + "/" + obj.id.replace("qs_", ""));
                             else
                                 History.pushState(null, null, findPath(mode) + q_id + "/" + obj.id.replace("qs_", ""));
+                            */
+                            History.pushState(null, null, findPath(mode) + q_id + "/" + obj.id.replace("qs_", ""));
                         }
 
                         advValidator.reload();
