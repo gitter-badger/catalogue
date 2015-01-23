@@ -182,6 +182,9 @@ urlpatterns = patterns('',
     # Statistics
     url(r'^statistics', include('statistics.urls')),
 
+    # Communities
+    url(r'^communities/', include('communities.urls')),
+
 )
 
 if settings.DEBUG:

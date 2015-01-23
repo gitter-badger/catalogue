@@ -1,0 +1,15 @@
+.helperthumb {
+    width: 125px;
+    height: 125px;
+    margin-left: 2px;
+    margin-right: 2px;
+    display: inline-block;
+}
+
+.helperthumb > img {
+    width: 125px;
+    height: 125px;
+}
+.helper-container {
+    text-align: center;
+}

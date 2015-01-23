@@ -1,0 +1,8 @@
+.list_middle {
+    vertical-align: middle !important;
+    font-size: 18px;
+}
+
+#mycommunities .accordion-inner{
+    padding: 0px;
+}

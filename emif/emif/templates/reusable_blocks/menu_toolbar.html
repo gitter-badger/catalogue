@@ -9,8 +9,7 @@
 			<i class="fa fa-pencil-square-o"></i> Edit
 		</button>
          {% endif %}
-
-		{% if request.user.is_authenticated %}
+		{% if user.is_authenticated %}
 		<!--div class="btn-group" id="group_toolbar"-->
       {% if dashboard %}
         <div id="dashboardselectbox" class="btn btn-group"></div>
