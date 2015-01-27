@@ -51,6 +51,12 @@ class List(TemplateView):
     def get(self, request):
         return render(request, self.template_name, {'request': request, 'breadcrumb': True})
 
+
+class Info(TemplateView):
+    template_name = "communities_info.html"
+    def get(self, request, identificator):
+        return render(request, self.template_name, {'request': request, 'breadcrumb': True})
+
 class ListFilters(APIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
@@ -59,15 +65,36 @@ class ListFilters(APIView):
         if request.user.is_authenticated():
             dictionary = {
                 "draw": 1,
-                "recordsTotal": 1,
-                "recordsFiltered": 1,
+                "recordsTotal": 4,
+                "recordsFiltered": 4,
                 "data": [
                     {
                         "logo": "http://127.0.0.1:8000/static/img/emif_logo_trans.png",
                         "name": "Emif Catalogue",
                         "date_created": "12-12-1212 12:12:12",
                         "members": 190,
-                        "manage": False
+                        "manage": "admin"
+                    },
+                    {
+                        "logo": "http://i.vimeocdn.com/portrait/8815135_300x300.jpg",
+                        "name": "UK-DP",
+                        "date_created": "12-12-1212 12:12:12",
+                        "members": 80,
+                        "manage": "member"
+                    },
+                    {
+                        "logo": "https://cdn0.iconfinder.com/data/icons/chart-graphics/78/Diagram_and_infographic_icons-03-512.png",
+                        "name": "Community 1",
+                        "date_created": "12-12-1212 12:12:12",
+                        "members": 90,
+                        "manage": "requester"
+                    },
+                    {
+                        "logo": "https://cdn0.iconfinder.com/data/icons/chart-graphics/78/Diagram_and_infographic_icons-03-512.png",
+                        "name": "Private Community",
+                        "date_created": "12-12-1212 12:12:12",
+                        "members": 10,
+                        "manage": "blocked"
                     }
                 ]
             }

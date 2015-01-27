@@ -4,7 +4,8 @@
 {% load django_bootstrap_breadcrumbs %}
 
 {% block breadcrumbs %}
-        {% breadcrumb "Home" "home" %}
+        {{ block.super }}
+        {% breadcrumb "Communities List" "communities/list" %}
 {% endblock %}
 
 {% block toolbar %}
@@ -42,7 +43,7 @@
                 <th></th>
             </tr>
             <tr>
-                <th class="table_filter"></th>
+                <th style="width: 40px;" class="table_filter"></th>
                 <th class="table_filter">
                     <input class="filter_input finput_name" placeholder="Filter" type="text" />
                 </th>
@@ -52,7 +53,7 @@
                 <th class="table_filter">
                     <input class="filter_input finput_members" placeholder="Filter" type="text" />
                 </th>
-                <th class="table_filter"></th>
+                <th style="width: 45px;" class="table_filter"></th>
             </tr>
         </thead>
         <tbody>

@@ -2,7 +2,7 @@ $(function(){
     var columns = [
                     { "data": "logo", "orderable": false, "searchable": false,
                         "createdCell": function (td, cellData, rowData, row, col) {
-                            $(td).html('<img style="height: 32px" src="'+cellData+'" />');
+                            $(td).html('<center><img style="height: 32px" src="'+cellData+'" /></center>');
                         }
                     },
                     { "data": "name" },
@@ -10,10 +10,27 @@ $(function(){
                     { "data": "members"},
                     { "data": "manage", "orderable": false, "searchable": false,
                         "createdCell": function (td, cellData, rowData, row, col) {
-                            if(cellData == false)
-                                $(td).html('<button class="btn btn-info">Request membership</button>');
-                            else
-                                $(td).html('Already a member');
+                            switch(cellData){
+                                case 'admin':
+
+                                    $(td).html('<img style="height: 32px;" src="https://cdn2.iconfinder.com/data/icons/picons-essentials/71/settings_2-512.png" />');
+                                    break;
+
+                                case 'requester':
+                                    $(td).html('<img style="height: 32px;" src="https://cdn2.iconfinder.com/data/icons/windows-8-metro-style/512/add_user.png" />');
+                                break;
+                                case 'member':
+                                    $(td).html('<img style="height: 32px;" src="https://cdn4.iconfinder.com/data/icons/eldorado-user/40/registered_user-512.png" />');
+
+                                break;
+                                case 'blocked':
+
+                                    $(td).html('<img style="height: 32px;" src="http://uxrepo.com/static/icon-sets/iconic/svg/block.svg" />');
+                                break;
+                                default:
+                                    $(td).html('ERROR');
+
+                            }
                         }
                     }
                 ];

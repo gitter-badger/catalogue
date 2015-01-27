@@ -24,4 +24,6 @@ urlpatterns = patterns('',
     url(r'^$', Index.as_view()),
     url(r'^list$', List.as_view()),
     url(r'^list/filters$', ListFilters.as_view()),
+    url(r'^list/(?P<identificator>[0-9a-zA-Z]+)$', Info.as_view()),
+
 )
