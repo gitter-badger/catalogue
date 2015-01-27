@@ -22,4 +22,6 @@ from .views import *
 urlpatterns = patterns('',
     # dashboard
     url(r'^$', Index.as_view()),
+    url(r'^list$', List.as_view()),
+    url(r'^list/filters$', ListFilters.as_view()),
 )

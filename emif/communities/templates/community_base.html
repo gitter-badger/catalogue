@@ -105,7 +105,16 @@
                 <div class="navbar navbar-fixed-top">
                     <div class="navbar-inner">
                         <div class="container">
-                            <a class="brand" href="">EMIF Platform</a>
+                            <!--a class="brand" href="">EMIF Platform</a-->
+                                <div class="btn-group">
+                                    <a class="brand btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Emif Platform
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Emif Catalogue</a></li>
+                                    </ul>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -121,13 +130,25 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             </a>
-                            <a class="brand" href="">EMIF Platform</a>
+                                <div style="float: left;margin-right: 10px;" class="btn-group">
+                                    <a style="font-size: 18px; color: grey;" class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i style="color: black;" class="fa fa-home"></i>
+                                        Emif Platform
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                    <center style="color: grey;"><small>Change Context</small></center>
+                                    <li class="divider  "></li>
+                                        <li><a href="#"><img width="20px" src="http://127.0.0.1:8000/static/img/emif_logo_trans.png">&nbsp; Emif Catalogue</a></li>
+                                        <li><a href="#"><img width="20px" src="http://i.vimeocdn.com/portrait/8815135_300x300.jpg">&nbsp; UK-DP</a></li>
+                                    </ul>
+                                </div>
                             {% if not readOnly %}
                             <div class="ui-widget nav-collapse collapse">
                                 {% if user.is_authenticated %}
                                 <ul class="nav" style="margin-right: 0 !important;">
                                     <li id="search_li" class="pull-left">
-                                        <form id="quicksearch" class="navbar-search pull-left" method="POST" action="resultsdiff/1">{% csrf_token %}
+                                        <form id="quicksearch" class="navbar-search pull-left" method="POST" action="communities/list">{% csrf_token %}
                                             {% if isAdvanced %}
                                             <input title="Enter the terms you wish to search for." class="search-query span2_5 form-text" placeholder="Search" type="text" id="edit-search-block-form--3" name="query" value="" size="25" maxlength="256">
                                             {% else %}
@@ -157,88 +178,7 @@
                                             <center><a href="notifications">See All Notifications</a></center>
                                         </ul>
                                     </li>
-                                    <li id="li_workspace" style="padding-right: 5px;" class="dropdown">
-                                        <a href="" id="databases_menu" class="dropdown-toggle" data-toggle="dropdown">Databases
-                                        <b class="caret"></b>
-                                        </a>
-                                        <ul class="dropdown-menu">
-                                            <li class="dropdown-submenu">
-                                                <a href="" onclick="return false;">View</a>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="databases">Personal</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="alldatabases">All</a>
-                                                    </li>
-                                                    <li class="divider"></li>
-                                                    <li>
-                                                        <a href="public/fingerprint">Private Links</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
 
-                                            {% comment %}
-                                            <li>
-                                                <a href="databases">Edit Databases</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Query History</a>
-                                            </li>
-                                            <li>
-                                                <a href="databases">Timeline</a>
-                                            </li>
-                                            {% endcomment %}
-
-                                            {% comment %}
-                                            {% if request.user.is_superuser %}
-                                            <li class="divider"></li>
-                                            <li class="dropdown-submenu">
-                                                <a href="" onclick="return false;">Statistics</a>
-                                                <ul class="dropdown-menu">
-                                                    {% show_fingerprints_for_statistics %}
-                                                </ul>
-                                            </li>
-                                            {% endif %}
-                                            {% endcomment %}
-
-                                            {% comment %}
-                                            <li class="divider"></li>
-                                            <li>
-                                                <a href="databases">Subscribe interests</a>
-                                            </li>
-                                            {% endcomment %}
-
-                                            <li class="divider"></li>
-                                            {% if profiles|isDataCustodian %}
-                                            <li class="dropdown-submenu">
-                                                <a href="" id="add_menu" onclick="return false;">Add New</a>
-                                                <ul class="dropdown-menu">
-                                                    {% if user.get_profile %}
-                                                    {% show_fingerprints_interests user %}
-                                                    {% else %}
-                                                    {% show_fingerprints %}
-                                                    {% endif %}
-                                                </ul>
-                                            </li>
-                                            {% endif %}
-                                            <li class="dropdown-submenu">
-                                                <a href="" onclick="return false;">Search</a>
-                                                <ul class="dropdown-menu">
-                                                    {% show_fingerprints_for_search request.user %}
-                                                    <li class="divider"></li>
-                                                    <li><a tabindex="-1" href="advsearch/history">Search History</a></li>
-                                                </ul>
-                                            </li>
-                                            {% comment %}
-                                            <li class="divider"></li>
-                                            <li>{% if request.user.is_superuser %}
-                                                <a href="import-questionnaire">Import Questionnaire</a>
-                                                {% endif %}
-                                            </li>
-                                            {% endcomment %}
-                                        </ul>
-                                    </li>
                                     {% endif %}
                                     {% block headerlogin %}
                                     {% if not user.is_authenticated %}

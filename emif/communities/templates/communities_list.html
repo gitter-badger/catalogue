@@ -1,0 +1,61 @@
+{% extends 'community_base.html' %}
+{% load url from future %}
+{% load extra_tags %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+        {% breadcrumb "Home" "home" %}
+{% endblock %}
+
+{% block toolbar %}
+    {% include "reusable_blocks/menu_toolbar.html" with collapse=collapseall %}
+{% endblock %}
+
+{% block styleinclude %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/dataTables.bootstrap.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/emif.communities_list.css" />
+
+{% endblock %}
+
+{% block uncompressed_js %}
+
+{% endblock %}
+
+{% block headextra %}
+    <script src="{{ STATIC_URL}}js/jquery.dataTables.js"></script>
+    <script src="{{ STATIC_URL}}js/dataTables.fixedColumns.js"></script>
+    <script src="{{ STATIC_URL}}js/dataTables.colResize.js"></script>
+
+    <script src="{{ STATIC_URL}}js/dataTables.bootstrap.js"></script>
+    <script src="{{ STATIC_URL}}js/emif.communities_list.js"></script>
+
+{% endblock %}
+
+{% block content %}
+    <table id="results-table" class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Date Created</th>
+                <th>Members</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th class="table_filter"></th>
+                <th class="table_filter">
+                    <input class="filter_input finput_name" placeholder="Filter" type="text" />
+                </th>
+                <th class="table_filter">
+                    <input class="filter_input finput_date_created" placeholder="Filter" type="text" />
+                </th>
+                <th class="table_filter">
+                    <input class="filter_input finput_members" placeholder="Filter" type="text" />
+                </th>
+                <th class="table_filter"></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+{% endblock %}

@@ -27,7 +27,57 @@ from .models import *
 from django.http import Http404
 from django.views.generic import TemplateView
 
+from rest_framework import permissions
+from rest_framework import renderers
+
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
+from django_datatables.models import *
+
 class Index(TemplateView):
     template_name = "communities.html"
     def get(self, request):
         return render(request, self.template_name, {'request': request, 'dashboard': True, 'breadcrumb': True})
+
+
+class List(TemplateView):
+    template_name = "communities_list.html"
+    def get(self, request):
+        return render(request, self.template_name, {'request': request, 'breadcrumb': True})
+
+class ListFilters(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+    def post(self, request, *args, **kw):
+
+        if request.user.is_authenticated():
+            dictionary = {
+                "draw": 1,
+                "recordsTotal": 1,
+                "recordsFiltered": 1,
+                "data": [
+                    {
+                        "logo": "http://127.0.0.1:8000/static/img/emif_logo_trans.png",
+                        "name": "Emif Catalogue",
+                        "date_created": "12-12-1212 12:12:12",
+                        "members": 190,
+                        "manage": False
+                    }
+                ]
+            }
+
+            table = DataTable.fromPOST(request.POST)
+
+            dictionary['draw'] = table.draw
+
+            response = Response(dictionary, status=status.HTTP_200_OK)
+
+        else:
+            response = Response({}, status=status.HTTP_403_FORBIDDEN)
+        return response

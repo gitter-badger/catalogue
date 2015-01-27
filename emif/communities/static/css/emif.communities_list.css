@@ -1,0 +1,16 @@
+.table_footer{
+    margin-top: 10px;
+}
+.table_footer .dataTables_length{
+    float: left;
+}
+
+.table_top #results-table_processing{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.table_top .dataTables_info{
+    float: right;
+}
