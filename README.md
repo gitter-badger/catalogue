@@ -25,7 +25,7 @@ All terminal commands can be executed, but whenever we use something between '<'
 		$ 	cd <your_path>/EMIF-ROOT
         $ 	git clone -b master https://github.com/bioinformatics-ua/emif-fb.git
 
-	If you're a developer, you can change branch to dev ( see [[DevelopmentCycle]] )
+	If you're a developer, you can change branch to dev ( see  [DevelopmentCycle](https://github.com/bioinformatics-ua/emif-fb/wiki/DevelopmentCycle "DevelopmentCycle") )
 
 3.  Install virtualenv
 
