@@ -20,6 +20,8 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+SAML_FOLDER = os.path.join(BASE_DIR, 'accounts/saml')
 
 
 DEBUG = True
@@ -325,6 +327,7 @@ INSTALLED_APPS = (
     # dashboard
     'dashboard',
 
+
     # notifications
     'notifications',
     # Django-Compressor
@@ -335,6 +338,8 @@ INSTALLED_APPS = (
     # django-constance
     'constance.backends.database',
     "constance"
+
+
 )
 
 CONSTANCE_BACKEND = 'constance.backends.database.DatabaseBackend'
@@ -494,6 +499,8 @@ LOGIN_EXEMPT_URLS = (
     r'^feedback',
     r'^faq',
     r'^accounts/signup',
+    r'^accounts/sso',
+    r'^accounts/attrs',
     r'^accounts/signin',
     r'^accounts/activate/(?P<activation_key>\w+)/$',
     r'^accounts/signup/complete',

@@ -21,7 +21,7 @@ from django.contrib import admin
 from adminplus.sites import AdminSitePlus
 
 from userena import views as userena_views
-from accounts.views import SignupFormExtra, signup, signin
+from accounts.views import *
 from views import *
 
 from django.conf import settings
@@ -50,6 +50,8 @@ urlpatterns = patterns('',
 
     url(r'^about$', 'emif.views.about'),
 
+
+    # Statistics
     # must do this to be able to use custom paths on this css file
     url(r'^bootstrap_ie_compatibility$', 'emif.views.bootstrap_ie_compatibility'),
 

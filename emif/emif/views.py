@@ -92,6 +92,7 @@ def get_api_info(fingerprint_id):
         result[r.field] = r.value
     return result
 
+
 def index(request, template_name='index_new.html'):
     referal = request.GET.get('ref', None)
 
@@ -105,6 +106,10 @@ def index(request, template_name='index_new.html'):
 
 def about(request, template_name='about.html'):
     return render(request, template_name, {'request': request, 'breadcrumb': True})
+
+def single(request, template_name='about.html'):
+    return redirect('http://localhost:8001/');
+    #return render(request, template_name, {'request': request, 'breadcrumb': True})
 
 def bootstrap_ie_compatibility(request, template_name='bootstrap_ie_compatibility.css'):
     return render(request, template_name, {'request': request, 'breadcrumb': False})

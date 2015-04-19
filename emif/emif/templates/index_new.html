@@ -95,6 +95,8 @@ var focusFirstField = function () {
 };
 focusFirstField();
 
+var selectedDropdownItem = -1;
+
 $(document).ready(function(){
     setTimeout(function() {
         $('html').css('visibility', 'visible').animate({
@@ -129,6 +131,26 @@ $(function(){
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ga, s);
 })();
+
+
+function SingleSignOn() {
+    var x = document.getElementById("selectedIdp").selectedIndex;
+    var y = document.getElementById("selectedIdp").options;
+    if (y[x].index == 0)
+        alert("You must select one Idp");
+    else
+    {
+        window.location.assign("{% url 'sso-index' %}?sso2");
+    }
+
+
+
+}
+
+
+
+
+
 </script>
             {% endcompress %}
         </head>
@@ -137,7 +159,7 @@ $(function(){
             <div class="container">
                 <div class="row-fluid">
                     <div class="span8 offset2 panel">
-                        <div class="inside">
+                        <div class="inside" >
                             <p><img src="{{STATIC_URL}}{{BRAND_LOGO}}"/></p>
                             <h1>{{BRAND}}</h1>
 
@@ -183,6 +205,15 @@ $(function(){
             </div>
             {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
         </form>
+                        <div style="display: inline">
+                            <p>Sign in using:</p>
+                            <select id="selectedIdp">
+                              <option selected="selected">--Select your Idp--</option>
+                              <option>OneLogin Idp 1</option>
+                              <option>OneLogin Idp 2</option>
+                            </select>
+                            <button onclick="SingleSignOn()"  style="position: relative; float: none; margin: auto;" class="span4 btn btn-success btn-large">Single Sing On</button>
+                        </div>
     </div>
     <div class="inside2">
         <hr>

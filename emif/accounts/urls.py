@@ -21,6 +21,12 @@ from userena import views as userena_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = patterns('',
+
+    # Single Sign On
+    url(r'^sso/$', sso, name='sso-index'),
+    url(r'^attrs/$', 'accounts.views.attrs', name='sso-attrs'),
+
+
     url(r'^signup/$',
         signup,
         {'signup_form': SignupFormExtra,
@@ -119,4 +125,6 @@ urlpatterns = patterns('',
     url(r'^$',
         userena_views.ProfileListView.as_view(),
         name='userena_profile_list'),
+
+
 )
