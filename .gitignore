@@ -32,3 +32,4 @@ emif/CACHE
 tests/reports
 
 emif/emif/static/files
+.idea
