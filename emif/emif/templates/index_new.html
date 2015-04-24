@@ -129,6 +129,19 @@ $(function(){
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(ga, s);
 })();
+
+
+function SingleSignOn() {
+    var x = document.getElementById("selectedIdp").selectedIndex;
+    var y = document.getElementById("selectedIdp").options;
+    if (y[x].index == 0)
+        alert("You must select one Idp");
+    else
+    {
+        window.location.assign("{% url 'saml2/login' %}");
+    }
+}
+
 </script>
             {% endcompress %}
         </head>
@@ -183,6 +196,16 @@ $(function(){
             </div>
             {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
         </form>
+
+           <div style="display: inline">
+                            <p>Sign in using:</p>
+                            <select id="selectedIdp">
+                              <option selected="selected">--Select your Idp--</option>
+                              <option>OneLogin Idp 1</option>
+                              <option>OneLogin Idp 2</option>
+                            </select>
+                            <button onclick="SingleSignOn()"  style="position: relative; float: none; margin: auto;" class="span4 btn btn-success btn-large">Single Sing On</button>
+                        </div>
     </div>
     <div class="inside2">
         <hr>

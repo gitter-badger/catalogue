@@ -179,6 +179,9 @@ urlpatterns = patterns('',
 
     # Developer app urls
     url(r'^developer/', include('developer.urls')),
+
+    # SSO
+    (r'^saml2/', include('djangosaml2.urls')),
 )
 
 if settings.DEBUG:
