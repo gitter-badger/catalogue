@@ -364,6 +364,7 @@ AUTHENTICATION_BACKENDS = (
     'userena.backends.UserenaAuthenticationBackend',
     'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'emif.sso_backend.SSOBackend'
 )
 
 # Email backend settings
@@ -500,6 +501,7 @@ LOGIN_EXEMPT_URLS = (
     r'^faq',
     r'^accounts/signup',
     r'^accounts/sso',
+    r'^accounts/metadata',
     r'^accounts/attrs',
     r'^accounts/signin',
     r'^accounts/activate/(?P<activation_key>\w+)/$',

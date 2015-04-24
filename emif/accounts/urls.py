@@ -23,9 +23,10 @@ from django.contrib.auth import views as auth_views
 urlpatterns = patterns('',
 
     # Single Sign On
-    url(r'^sso/$', sso, name='sso-index'),
-    url(r'^attrs/$', 'accounts.views.attrs', name='sso-attrs'),
-
+    url(r'^sso$', sso, name='sso-index'),
+    url(r'^sso/attrs/$', 'accounts.views.attrs', name='sso-attrs'),
+    url(r'^metadata/$', 'accounts.views.metadata', name='metadata'),
+    url(r'^sso/test/$', 'accounts.views.test', name='sso-test'),
 
     url(r'^signup/$',
         signup,

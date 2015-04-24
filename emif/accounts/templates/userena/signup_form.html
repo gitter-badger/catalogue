@@ -73,5 +73,11 @@
     }
   });
   $('label[for="id_paginator"]').show();
+
+    $(function(){
+     {% if request.session.email %}
+         $('#id_email').val('{{request.session.email}}');
+      {% endif %}
+    });
   {% endblock %}
 

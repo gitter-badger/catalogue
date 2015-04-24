@@ -52,6 +52,8 @@ from django.template import RequestContext
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 
+from django.contrib.auth import authenticate, login
+
 options = (
         (5, '5'),
         (10, '10'),
@@ -303,6 +305,8 @@ def prepare_django_request(request):
     return result
 
 
+from django.views.decorators.csrf import csrf_exempt
+@csrf_exempt
 def sso(request):
     req = prepare_django_request(request)
     auth = init_saml_auth(req)
@@ -313,11 +317,17 @@ def sso(request):
     paint_logout = False
 
     if 'sso' in req['get_data']:
+        print("no sso")
         return HttpResponseRedirect(auth.login())
     elif 'sso2' in req['get_data']:
+        print("no sso2")
         return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('sso-attrs')
+        print return_to
+        RR = auth.login(return_to)
+        print RR
         return HttpResponseRedirect(auth.login(return_to))
     elif 'slo' in req['get_data']:
+        print("no slo")
         name_id = None
         session_index = None
         if 'samlNameId' in request.session:
@@ -327,6 +337,7 @@ def sso(request):
 
         return HttpResponseRedirect(auth.logout(name_id=name_id, session_index=session_index))
     elif 'acs' in req['get_data']:
+        print("no acs")
         auth.process_response()
         errors = auth.get_errors()
         not_auth_warn = not auth.is_authenticated()
@@ -337,6 +348,7 @@ def sso(request):
             if 'RelayState' in req['post_data'] and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
                 return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
     elif 'sls' in req['get_data']:
+        print("no sls")
         dscb = lambda: request.session.flush()
         url = auth.process_slo(delete_session_cb=dscb)
         errors = auth.get_errors()
@@ -346,6 +358,9 @@ def sso(request):
             else:
                 success_slo = True
 
+    print("aquele if no sso")
+    print("samlUserdata em request.session?")
+    print('samlUserdata' in request.session)
     if 'samlUserdata' in request.session:
         paint_logout = True
         if len(request.session['samlUserdata']) > 0:
@@ -363,13 +378,73 @@ def sso(request):
 def attrs(request):
     paint_logout = False
     attributes = False
+    req = prepare_django_request(request)
+    print("no attrs")
+    print("tem samlUserdata no request.session?")
+    print ('samlUserdata' in request.session)
 
     if 'samlUserdata' in request.session:
         paint_logout = True
+        print len(request.session['samlUserdata'])
         if len(request.session['samlUserdata']) > 0:
             attributes = request.session['samlUserdata'].items()
+            # get the user email
+            for attr in attributes:
+                print attr[0]
+                if(attr[0] == 'User.email'):
+                    user_email = str(attr[1][0])
+                    print type(user_email)
+                    print(attr[1])
+                    print("one login" + user_email)
+
+            try:
+                user = authenticate(username=user_email, password=settings.SECRET_KEY, check_password=False)
+                login(request, user)
+                return_to = OneLogin_Saml2_Utils.get_self_url(req)
+            except User.DoesNotExist:
+                request.session['email'] = user_email
+                return redirect('userena_signup')
+
+    return HttpResponseRedirect(return_to)
+
+
+            #aceder ao atributo email
 
     return render_to_response('sso/attrs.html',
                               {'paint_logout': paint_logout,
                                'attributes': attributes},
                               context_instance=RequestContext(request))
+
+def test(request):
+    req = prepare_django_request(request)
+    print OneLogin_Saml2_Utils.get_self_url(req)
+    print("test")
+    return_to = OneLogin_Saml2_Utils.get_self_url(req)
+    try:
+        username = User.objects.get(email__exact="ricardofelgueiras@ua.pt")
+        fullname=username.get_full_name()
+        print("encontrou user")
+    except User.DoesNotExist:
+        print("não encontrou user")
+        return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('userena_signup')
+        pass
+
+    return HttpResponseRedirect(return_to)
+
+
+
+
+
+def metadata(request):
+    print("no metadata")
+    req = prepare_django_request(request)
+    auth = init_saml_auth(req)
+    saml_settings = auth.get_settings()
+    metadata = saml_settings.get_sp_metadata()
+    errors = saml_settings.validate_metadata(metadata)
+
+    if len(errors) == 0:
+        resp = HttpResponse(content=metadata, content_type='text/xml')
+    else:
+        resp = HttpResponseServerError(content=', '.join(errors))
+    return resp

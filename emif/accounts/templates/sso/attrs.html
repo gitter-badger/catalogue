@@ -2,8 +2,13 @@
 
 {% block content %}
 
+
+
 {% if paint_logout %}
-  {% if attributes %}
+    {% if found %}
+        SingleSignOn()
+        {% endif %}
+    {% if attributes %}
     <p>You have the following attributes:</p>
     <table class="table table-striped">
       <thead>
