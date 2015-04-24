@@ -397,7 +397,7 @@ import saml2
 BASEDIR = path.dirname(path.abspath(__file__))
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
-    'xmlsec_binary': '/usr/bin/xmlsec1',
+    'xmlsec_binary': '/usr/local/bin/xmlsec1',
 
     # your entity id, usually your subdomain plus the url to the metadata view
     'entityid': 'http://localhost:8000/saml2/metadata/',
@@ -443,12 +443,12 @@ SAML_CONFIG = {
               # present in our metadata
 
               # the keys of this dictionary are entity ids
-              'https://app.onelogin.com/saml/metadata/434859': {
+              'https://app.onelogin.com/saml/metadata/444622': {
                   'single_sign_on_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-post/sso/434859',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-post/sso/444622',
                       },
                   'single_logout_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-redirect/slo/434859',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-redirect/slo/444622',
                       },
                   },
               },
