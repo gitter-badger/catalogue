@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Emif-fb by bioinformatics-ua</title>
+    <title>Catalogue - Fingerprint Browser by bioinformatics-ua</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,7 +11,7 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Emif-fb</h1>
+      <h1 class="project-name">Catalogue - Fingerprint Browser</h1>
       <h2 class="project-tagline">Catalogue (Fingerprint Browser) </h2>
       <a href="https://github.com/bioinformatics-ua/emif-fb" class="btn">View on GitHub</a>
       <a href="https://github.com/bioinformatics-ua/emif-fb/zipball/master" class="btn">Download .zip</a>
@@ -19,40 +19,388 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+      <h1>
+<a id="catalogue---fingerprint-browser-" class="anchor" href="#catalogue---fingerprint-browser-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Catalogue - Fingerprint Browser </h1>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p><a href="https://gitter.im/bioinformatics-ua/emif-fb?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/bioinformatics-ua/emif-fb"></a></p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<p>This project is being used in the EMIF Platform and it is also know as Fingerprint Browser in the EMIF community.</p>
+
+<p>Some of the Available features:</p>
+
+<p>For Regular user:</p>
+
+<ul>
+<li>Accounting management (users, databases, workspaces)</li>
+<li>Database management</li>
+<li>Submission and edition (with the former questionary)</li>
+<li>Simple search</li>
+<li>Advanced search</li>
+<li>Results comparison</li>
+<li>Dashboard </li>
+<li>Population Characteristics</li>
+<li>RESTful API</li>
+</ul>
+
+<p>For admin:</p>
+
+<ul>
+<li>Questions/fingerprints</li>
+<li>Templates</li>
+<li>Templates definition by XLSX</li>
+</ul>
+
+<p>For developers:</p>
+
+<ul>
+<li>RESTful API</li>
+<li>Plugin based architecture: new modules are possible to include </li>
+</ul>
+
+<hr>
+
+<h2>
+<a id="for-development" class="anchor" href="#for-development" aria-hidden="true"><span class="octicon octicon-link"></span></a>For Development</h2>
+
+<h4>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span class="octicon octicon-link"></span></a>Note</h4>
+
+<p>This guide is provided for Ubuntu 14.04, for other systems or releases instructions may be subject to changes.</p>
+
+<p>All terminal commands can be executed, but whenever we use something between '&lt;', '&gt;' it means that it must be changed for the user. Eg. <code>&lt;your_path&gt;</code> --&gt; <code>/opt/</code> </p>
+
+<h4>
+<a id="install-dependecies-in-ubuntu" class="anchor" href="#install-dependecies-in-ubuntu" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Dependecies in Ubuntu</h4>
+
+<ol>
+<li>
+<p>Install packages</p>
+
+<pre><code>$   sudo apt-get install git python-pip curl mongodb postgresql rabbitmq-server libxml2-dev libxslt1-dev python-dev libpython-dev build-essential libyaml-dev postgres-server-dev-9.4
+</code></pre>
+</li>
+<li>
+<p>Checkout of the source code</p>
+
+<pre><code>$   mkdir &lt;your_path&gt;/EMIF-ROOT
+$   cd &lt;your_path&gt;/EMIF-ROOT
+$   git clone -b master https://github.com/bioinformatics-ua/emif-fb.git
 </code></pre>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<p>If you're a developer, you can change branch to dev ( see  <a href="https://github.com/bioinformatics-ua/emif-fb/wiki/DevelopmentCycle" title="DevelopmentCycle">DevelopmentCycle</a> )</p>
+</li>
+<li>
+<p>Install virtualenv</p>
+
+<pre><code>$   sudo pip install virtualenv
+</code></pre>
+</li>
+<li>
+<p>Activate Virtual Environment</p>
+
+<pre><code>$   virtualenv &lt;your_path&gt;/EMIF-ROOT/emif
+$   source &lt;your_path&gt;/EMIF-ROOT/emif/bin/activate
+</code></pre>
+</li>
+<li>
+<p>Install pil</p>
+
+<pre><code>$   pip install -r requirements.txt --allow-all-external --allow-unverified pil
+</code></pre>
+</li>
+<li>
+<p>Install and Start MongoDB</p>
+
+<pre><code>$ sudo mkdir &lt;your_mongodb_path&gt;
+$ sudo mkdir &lt;your_mongodb_path&gt;/db
+</code></pre>
+
+<p>Now you have 2 hypotheses:</p>
+
+<ol>
+<li>
+<p>change the permissions of data and db folders and run "mongod":</p>
+
+<pre><code>$   sudo chmod a+x &lt;your_mongodb_path&gt;
+$   sudo chmod a+x &lt;your_mongodb_path&gt;/db
+$   mongod --dbpath &lt;your_mongodb_path&gt;
+</code></pre>
+</li>
+<li>
+<p>Run mongod as root:</p>
+
+<pre><code>$   sudo /mongod --dbpath &lt;your_mongodb_path&gt;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>Create '~/.pgpass' file and insert:</p>
+
+<pre><code>localhost:5432:*:&lt;your_postgres_user&gt;:&lt;your_postgres_pass&gt;
+</code></pre>
+</li>
+<li>
+<p>Change permission mode of pgpass file</p>
+
+<pre><code>chmod 600 ~/.pgpass   
+</code></pre>
+</li>
+<li>
+<p>Install and Configure Apache-solr</p>
+
+<ol>
+<li>
+<p>Install JDK and JRE:</p>
+
+<pre><code>$   sudo apt-get update
+$   sudo apt-get install default-jre default-jdk
+</code></pre>
+</li>
+<li>
+<p>Download and install SOLR</p>
+
+<pre><code>$   cd /opt
+$   wget http://archive.apache.org/dist/lucene/solr/4.7.2/solr-4.7.2.tgz
+$   tar -xvf solr-4.7.2.tgz
+$   cp -R solr-4.7.2/example /opt/solr
+$   cd /opt/solr
+</code></pre>
+</li>
+<li>
+<p>Go to folder emif-fb-root/conf/solr/ and copy all the files to the solr default core configuration </p>
+
+<pre><code>$   cp -r &lt;your_path&gt;/EMIF-ROOT/emif-fb/confs/solr/suggestions /opt/solr/confs/
+$   cp -r &lt;your_path&gt;/EMIF-ROOT/emif-fb/confs/solr/collections/* /opt/solr/example/confs/
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>Create a script file:</p>
+
+<ol>
+<li>
+<p>copy code from: </p>
+
+<pre><code>https://gist.github.com/bastiao/c8d3be799dc7c257f01a
+</code></pre>
+</li>
+<li>
+<p>Paste in a new file in confs/ folder. Eg: </p>
+
+<pre><code>&lt;your_path&gt;/EMIF-ROOT/emif-fb/confs/script.sh
+</code></pre>
+</li>
+<li>
+<p>Open file and change (to the same of the <em>~/.pgpass</em> file)</p>
+
+<pre><code>APP_DB_USER=&lt;your_postgres_user&gt;
+APP_DB_PASS=&lt;your_postgres_pass&gt;
+</code></pre>
+</li>
+<li>
+<p>Run the script</p>
+
+<pre><code>$   sh &lt;your_path&gt;/EMIF-ROOT/emif-fb/confs/&lt;script_name&gt;.sh
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>Run Apache-solr as service</p>
+
+<p>Go to solr folder and Run:</p>
+
+<pre><code>$   java -jar /opt/solr/example/start.jar
+</code></pre>
+</li>
+<li>
+<p>Open a new terminal window/tab and run celery</p>
+
+<pre><code>$   celery --app=emif.tasks worker -l debug -B
+</code></pre>
+</li>
+<li>
+<p>Run</p>
+
+<pre><code>$   python manage.py syncdb
+$   python manage.py import-questionnaire &lt;path_to_fingerprint_schema&gt;
+$   python manage.py migrate
+$   cat &lt;your_path&gt;/EMIF-ROOT/emif-fb/confs/newsletter/newsletter_templates.sql | python manage.py dbshell
+$   python manage.py runserver 0.0.0.0:8000
+</code></pre>
+</li>
+<li>
+<p>Create a folder to documents population characteristic</p>
+
+<pre><code>mkdir -p &lt;your_path&gt;/EMIF-ROOT/emif/static/files/
+</code></pre>
+</li>
+<li>
+<p>Open browser and write</p>
+
+<pre><code>localhost:8000
+</code></pre>
+</li>
+</ol>
 
 <h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="optional-steps" class="anchor" href="#optional-steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optional Steps:</h3>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<ol>
+<li>
+<p>Create Local Settings File: </p>
+
+<pre><code>&lt;your_path&gt;/EMIF-ROOT/emif/emif/local_settings.py
+</code></pre>
+</li>
+<li>
+<p>Add lines for email integration - <strong>Fill accordingly</strong> (optional):</p>
+
+<pre><code>EMAIL_HOST = 'address.mail.com'
+EMAIL_HOST_PASSWORD = 'passwd'
+EMAIL_HOST_USER = 'login'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+</code></pre>
+</li>
+<li>
+<p>Add lines for integration with github issues and releases <strong>Fill accordingly</strong> (optional)</p>
+
+<pre><code>GITHUB_USERNAME='githubusername'
+GITHUB_PASSWD='pass'
+GITHUB_ACCOUNT='bioinformatics-ua'
+GITHUB_REPO='emif-fb'
+</code></pre>
+</li>
+</ol>
 
 <h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a id="start-the-virtual-environment-and-development-always" class="anchor" href="#start-the-virtual-environment-and-development-always" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start the virtual environment and development (always)</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<ol>
+<li>
+<p>Go to solr folder and Run:</p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<pre><code>$   java -jar /opt/solr/example/start.jar
+</code></pre>
+</li>
+<li>
+<p>Start MongoDB</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<p>If you change the permissions of the /data and /data/db folders</p>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<pre><code>$    mongod --dbpath &lt;your_mongodb_path&gt;
+</code></pre>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<p>else</p>
+
+<pre><code>$   sudo /mongod --dbpath &lt;your_mongodb_path&gt;
+</code></pre>
+</li>
+<li>
+<p>Activate the virtual environments</p>
+
+<pre><code>$   source &lt;your_path&gt;/EMIF-ROOT/emif/bin/activate
+</code></pre>
+</li>
+<li>
+<p>Start Django</p>
+
+<pre><code>$   python manage.py runserver 0.0.0.0:8000
+</code></pre>
+</li>
+<li>
+<p>Open browser at:</p>
+
+<pre><code>localhost:8000
+</code></pre>
+</li>
+</ol>
+
+<hr>
+
+<h2>
+<a id="for-production" class="anchor" href="#for-production" aria-hidden="true"><span class="octicon octicon-link"></span></a>For Production</h2>
+
+<h4>
+<a id="integrate-sentry" class="anchor" href="#integrate-sentry" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integrate Sentry</h4>
+
+<p>Put in settings.py:</p>
+
+<ul>
+<li><p>Sentry url must be specified in settings.py globals, on parameter "SENTRY_URL"</p></li>
+<li><p>Also:</p></li>
+</ul>
+
+<pre><code>RAVEN_CONFIG = {
+    'dsn': 'http://hash@host:port/id',
+}
+</code></pre>
+
+<h4>
+<a id="integrate-sentry-1" class="anchor" href="#integrate-sentry-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integrate Sentry</h4>
+
+<p>Put in settings.py:</p>
+
+<ul>
+<li><p>Sentry url must be specified in settings.py globals, on parameter "SENTRY_URL"</p></li>
+<li><p>Also:</p></li>
+</ul>
+
+<pre><code>RAVEN_CONFIG = {
+    'dsn': 'http://hash@host:port/id',
+}
+</code></pre>
+
+<h4>
+<a id="update-version" class="anchor" href="#update-version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Update version</h4>
+
+<pre><code>python manage.py update_version 0.7
+</code></pre>
+
+<h4>
+<a id="developers" class="anchor" href="#developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Developers</h4>
+
+<ul>
+<li>Luís A. Bastião Silva <a href="mailto:bastiao@ua.pt">bastiao@ua.pt</a>
+</li>
+<li>Ricardo Ribeiro <a href="mailto:ribeiro.r@ua.pt">ribeiro.r@ua.pt</a> </li>
+</ul>
+
+<h4>
+<a id="lead-developer" class="anchor" href="#lead-developer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lead developer</h4>
+
+<ul>
+<li>Luís A. Bastião Silva <a href="mailto:bastiao@ua.pt">bastiao@ua.pt</a> (since 2013 until now)</li>
+</ul>
+
+<h4>
+<a id="project-leader" class="anchor" href="#project-leader" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project Leader</h4>
+
+<ul>
+<li>José Luis Oliveira <a href="mailto:jlo@ua.pt">jlo@ua.pt</a>
+</li>
+</ul>
+
+<h4>
+<a id="past-developers" class="anchor" href="#past-developers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Past Developers</h4>
+
+<ul>
+<li>Rui Mendes <a href="mailto:ruidamendes@ua.pt">ruidamendes@ua.pt</a>
+</li>
+<li>José Melo <a href="mailto:melojms@gmail.com">melojms@gmail.com</a>
+</li>
+<li>
+<p>Tiago Godinho <a href="mailto:tmgodinho@ua.pt">tmgodinho@ua.pt</a></p>
+
+<p>Enjoy!</p>
+</li>
+</ul>
 
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/bioinformatics-ua/emif-fb">Emif-fb</a> is maintained by <a href="https://github.com/bioinformatics-ua">bioinformatics-ua</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/bioinformatics-ua/emif-fb">Catalogue - Fingerprint Browser</a> is maintained by <a href="https://github.com/bioinformatics-ua">bioinformatics-ua</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
