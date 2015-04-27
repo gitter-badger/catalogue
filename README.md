@@ -3,7 +3,7 @@ emif-fb
 
 [![Join the chat at https://gitter.im/bioinformatics-ua/emif-fb](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bioinformatics-ua/emif-fb?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-EMIF Platform - Fingerprint Browser 
+EMIF Platform - Fingerprint Browser
 
 
 ----------
@@ -12,14 +12,14 @@ EMIF Platform - Fingerprint Browser
 #### Note
 This guide is provided for Ubuntu 14.04, for other systems or releases instructions may be subject to changes.
 
-All terminal commands can be executed, but whenever we use something between '<', '>' it means that it must be changed for the user. Eg. `<your_path>` --> `/opt/` 
+All terminal commands can be executed, but whenever we use something between '<', '>' it means that it must be changed for the user. Eg. `<your_path>` --> `/opt/`
 
 #### Install Dependecies in Ubuntu
 
 
 1.  Install packages
 
-        $ 	sudo apt-get install git python-pip curl mongodb postgresql rabbitmq-server libxml2-dev libxslt1-dev python-dev libpython-dev build-essential libyaml-dev postgres-server-dev-9.4
+        $ 	sudo apt-get install git python-pip curl mongodb postgresql rabbitmq-server libxml2-dev libxslt1-dev python-dev libpython-dev build-essential libyaml-dev postgres-server-dev-9.4 libffi cryptography
 
 2. Checkout of the source code
 
@@ -41,7 +41,7 @@ All terminal commands can be executed, but whenever we use something between '<'
 5.  Install pil
 
         $	pip install -r requirements.txt --allow-all-external --allow-unverified pil
-		
+
 6.  Install and Start MongoDB
 
         $ sudo mkdir <your_mongodb_path>
@@ -56,7 +56,7 @@ All terminal commands can be executed, but whenever we use something between '<'
 			$	mongod --dbpath <your_mongodb_path>
 
 	2. Run mongod as root:
-		
+
 			$	sudo /mongod --dbpath <your_mongodb_path>
 
 7. Create '~/.pgpass' file and insert:
@@ -64,49 +64,49 @@ All terminal commands can be executed, but whenever we use something between '<'
         localhost:5432:*:<your_postgres_user>:<your_postgres_pass>
 
 8. Change permission mode of pgpass file
-    
-        chmod 600 ~/.pgpass   
+
+        chmod 600 ~/.pgpass
 
 9.  Install and Configure Apache-solr
-        
+
 	1. Install JDK and JRE:
-		
+
 			$ 	sudo apt-get update
 			$	sudo apt-get install default-jre default-jdk
-	
+
 	2. Download and install SOLR
-			
+
 			$ 	cd /opt
 			$	wget http://archive.apache.org/dist/lucene/solr/4.7.2/solr-4.7.2.tgz
 			$	tar -xvf solr-4.7.2.tgz
 			$	cp -R solr-4.7.2/example /opt/solr
 			$	cd /opt/solr
-		
-	3. Go to folder emif-fb-root/conf/solr/ and copy all the files to the solr default core configuration 
+
+	3. Go to folder emif-fb-root/conf/solr/ and copy all the files to the solr default core configuration
 
 			$	cp -r <your_path>/EMIF-ROOT/emif-fb/confs/solr/suggestions /opt/solr/confs/
 			$	cp -r <your_path>/EMIF-ROOT/emif-fb/confs/solr/collections/* /opt/solr/example/confs/
 
 10. Create a script file:
 
-	1. copy code from: 
-		
+	1. copy code from:
+
 			https://gist.github.com/bastiao/c8d3be799dc7c257f01a
 
-	2. Paste in a new file in confs/ folder. Eg: 
-	
+	2. Paste in a new file in confs/ folder. Eg:
+
 			<your_path>/EMIF-ROOT/emif-fb/confs/script.sh
 
 	3. Open file and change (to the same of the *~/.pgpass* file)
 
 			APP_DB_USER=<your_postgres_user>
 			APP_DB_PASS=<your_postgres_pass>
-	
+
 	4. Run the script
-	
+
 			$	sh <your_path>/EMIF-ROOT/emif-fb/confs/<script_name>.sh
 
- 
+
 11. Run Apache-solr as service
 
 	Go to solr folder and Run:
@@ -124,7 +124,7 @@ All terminal commands can be executed, but whenever we use something between '<'
         $	python manage.py migrate
 		$	cat <your_path>/EMIF-ROOT/emif-fb/confs/newsletter/newsletter_templates.sql | python manage.py dbshell
         $	python manage.py runserver 0.0.0.0:8000
-      
+
 
 14. Create a folder to documents population characteristic
 
@@ -135,8 +135,8 @@ All terminal commands can be executed, but whenever we use something between '<'
         localhost:8000
 
 ### Optional Steps:
-1. Create Local Settings File: 
-	
+1. Create Local Settings File:
+
 		<your_path>/EMIF-ROOT/emif/emif/local_settings.py
 
 2. Add lines for email integration - **Fill accordingly** (optional):
@@ -225,7 +225,7 @@ python manage.py update_version 0.7
 #### Developers
 
  * Luís A. Bastião Silva <bastiao@ua.pt>
- * Ricardo Ribeiro <ribeiro.r@ua.pt> 
+ * Ricardo Ribeiro <ribeiro.r@ua.pt>
 
 
 #### Lead developer

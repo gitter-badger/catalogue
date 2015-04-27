@@ -397,10 +397,10 @@ import saml2
 BASEDIR = path.dirname(path.abspath(__file__))
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
-    'xmlsec_binary': '/usr/local/bin/xmlsec1',
+    'xmlsec_binary': '/usr/bin/xmlsec1',
 
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': 'http://localhost:8000/saml2/metadata/',
+    'entityid': 'http://localhost:8000/',
 
     # directory with attribute mapping
     'attribute_map_dir': path.join(BASEDIR, 'attributemaps'),
@@ -443,12 +443,12 @@ SAML_CONFIG = {
               # present in our metadata
 
               # the keys of this dictionary are entity ids
-              'https://app.onelogin.com/saml/metadata/444622': {
+              'https://app.onelogin.com/saml/metadata/445159': {
                   'single_sign_on_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-post/sso/444622',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-post/sso/445159',
                       },
                   'single_logout_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-redirect/slo/444622',
+                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-redirect/slo/445159',
                       },
                   },
               },
@@ -538,13 +538,28 @@ LOGGING = {
             'level': 'DEBUG',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'DEBUG',
             'propagate': True,
+        },
+        'saml2.response': {
+            'handlers': ['console'],
+            'level': os.getenv('DEBUG'),
+        },
+        'djangosaml2': {
+            'handlers': ['console'],
+            'level': os.getenv('DEBUG'),
+        },
+        "saml2.mdstore": {
+            'handlers': ['console'],
+            'level': os.getenv('DEBUG'),
         },
     }
 }
@@ -616,8 +631,10 @@ JENKINS_TASKS = (
 #Pages that do not require login
 LOGIN_EXEMPT_URLS = (
     r'^$',
-    r'^saml2',
+    r'^saml2$',
     r'^saml2/login',
+    r'^saml2/acs',
+    r'^saml2/ls',
     r'^about',
     r'^feedback',
     r'^faq',
