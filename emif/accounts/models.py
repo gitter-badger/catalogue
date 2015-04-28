@@ -325,3 +325,22 @@ class NavigationHistory(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 
+from django.dispatch import receiver
+from djangosaml2.signals import pre_user_save
+
+from django.conf import settings
+
+from emif.models import add_invited
+
+@receiver(pre_user_save)
+def custom_update_user(sender, attributes, user_modified, **kwargs):
+    try:
+        pf = sender.emif_profile
+    except EmifProfile.DoesNotExist:
+        pf = EmifProfile(user=sender)
+        pf.save()
+        add_invited(sender)
+        print "AFTER ADD INVITED"
+
+    if user_modified:
+        return True  # I modified the user object

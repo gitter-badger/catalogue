@@ -226,6 +226,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'emif.middleware.LoginRequiredMiddleware',
+    'emif.middleware.ProfileRequiredMiddleware',
     'emif.interceptor.NavigationInterceptor',
     'johnny.middleware.LocalStoreClearMiddleware',
     'johnny.middleware.QueryCacheMiddleware',
@@ -400,7 +401,7 @@ SAML_CONFIG = {
     'xmlsec_binary': '/usr/bin/xmlsec1',
 
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': 'http://localhost:8000/',
+    'entityid': 'http://localhost:8000/saml2/metadata',
 
     # directory with attribute mapping
     'attribute_map_dir': path.join(BASEDIR, 'attributemaps'),
@@ -438,19 +439,19 @@ SAML_CONFIG = {
 
           # in this section the list of IdPs we talk to are defined
           'idp': {
-              # we do not need a WAYF service since there is
-              # only an IdP defined here. This IdP should be
-              # present in our metadata
+                  # we do not need a WAYF service since there is
+                  # only an IdP defined here. This IdP should be
+                  # present in our metadata
 
-              # the keys of this dictionary are entity ids
-              'https://app.onelogin.com/saml/metadata/445159': {
-                  'single_sign_on_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-post/sso/445159',
+                  # the keys of this dictionary are entity ids
+                  'https://openidp.feide.no': {
+                      'single_sign_on_service': {
+                          saml2.BINDING_HTTP_REDIRECT: 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
+                          },
+                      'single_logout_service': {
+                          saml2.BINDING_HTTP_REDIRECT: 'https://openidp.feide.no/simplesaml/saml2/idp/SingleLogoutService.php',
+                          },
                       },
-                  'single_logout_service': {
-                      saml2.BINDING_HTTP_REDIRECT: 'https://app.onelogin.com/trust/saml2/http-redirect/slo/445159',
-                      },
-                  },
               },
           },
       },
@@ -490,12 +491,11 @@ SAML_CONFIG = {
 }
 
 SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'email'
-SAML_USE_NAME_ID_AS_USERNAME = True
+SAML_USE_NAME_ID_AS_USERNAME = False
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
-    'uid': ('username', ),
-    'mail': ('email', ),
-    'cn': ('first_name', ),
+    'mail': ('email', 'username' ),
+    'givenName': ('first_name', ),
     'sn': ('last_name', ),
 }
 
@@ -633,6 +633,7 @@ LOGIN_EXEMPT_URLS = (
     r'^$',
     r'^saml2$',
     r'^saml2/login',
+    r'^saml2/metadata',
     r'^saml2/acs',
     r'^saml2/ls',
     r'^about',

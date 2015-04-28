@@ -138,7 +138,7 @@ function SingleSignOn() {
         alert("You must select one Idp");
     else
     {
-        
+
     }
 }
 
@@ -191,21 +191,14 @@ function SingleSignOn() {
                       <!--<label class="checkbox">
                         <input type="checkbox"> Remember me
                     </label>-->
-                    <button style="position: relative; float: none; margin: auto;" type="submit" class="span6 btn btn-success btn-large">Sign in</button>
+                    <div class="">
+                    <button  type="submit" class="offset3 span4 btn btn-success btn-large">Sign in</button>
+                    <a  href="saml2/login" class="span2 btn btn-info btn-large">IDP</a>
+                    </div>
                 </div>
             </div>
             {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
         </form>
-
-           <div style="display: inline">
-                            <p>Sign in using:</p>
-                            <select id="selectedIdp">
-                              <option selected="selected">--Select your Idp--</option>
-                              <option>OneLogin Idp 1</option>
-                              <option>OneLogin Idp 2</option>
-                            </select>
-                            <button onclick="SingleSignOn()"  style="position: relative; float: none; margin: auto;" class="span4 btn btn-success btn-large">Single Sing On</button>
-                        </div>
     </div>
     <div class="inside2">
         <hr>
