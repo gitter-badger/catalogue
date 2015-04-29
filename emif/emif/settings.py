@@ -466,7 +466,9 @@ SAML_CONFIG = {
 
   # where the remote metadata is stored
   'metadata': {
-      'local': [path.join(BASEDIR, 'remote_metadata.xml'), path.join(BASEDIR, 'testshib.xml')],
+      'local': [
+        path.join(BASEDIR, 'remote_metadata.xml'),
+        path.join(BASEDIR, 'testshib.xml')],
       },
 
   # set to 1 to output debugging information
@@ -478,22 +480,17 @@ SAML_CONFIG = {
 
   # own metadata settings
   'contact_person': [
-      {'given_name': 'Lorenzo',
-       'sur_name': 'Gil',
-       'company': 'Yaco Sistemas',
-       'email_address': 'lgs@yaco.es',
-       'contact_type': 'technical'},
-      {'given_name': 'Angel',
-       'sur_name': 'Fernandez',
-       'company': 'Yaco Sistemas',
-       'email_address': 'angel@yaco.es',
+      {'given_name': 'José Luis',
+       'sur_name': 'Oliveira',
+       'company': 'DETI/IEETA',
+       'email_address': 'jlo@ua.pt',
        'contact_type': 'administrative'},
       ],
   # you can set multilanguage information here
   'organization': {
-      'name': [('Yaco Sistemas', 'es'), ('Yaco Systems', 'en')],
-      'display_name': [('Yaco', 'es'), ('Yaco', 'en')],
-      'url': [('http://www.yaco.es', 'es'), ('http://www.yaco.com', 'en')],
+      'name': [('EMIF Catalogue', 'en')],
+      'display_name': [('EMIF Catalogue', 'en')],
+      'url': [('http://bioinformatics.ua.pt/emif', 'en')],
       },
   'valid_for': 24,  # how long is our metadata valid
 }
@@ -502,8 +499,8 @@ SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'email'
 SAML_USE_NAME_ID_AS_USERNAME = False
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
-    'eduPersonPrincipalName': ('email', 'username'),
     'mail': ('email', 'username' ),
+    'eduPersonPrincipalName': ('email', 'username'),
     'givenName': ('first_name', ),
     'sn': ('last_name', ),
 }
