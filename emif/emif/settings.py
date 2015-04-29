@@ -20,7 +20,11 @@ import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+from os import path
+from saml2 import saml
+import saml2
 
+BASEDIR = path.dirname(path.abspath(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -52,11 +56,18 @@ VERSION = '1.0'
 VERSION_DATE = '2015.Mar.22 - 21:03UTC'
 PROJECT_DIR_ROOT = '/projects/emif-dev/'
 
+XMLSEC_BIN = '/usr/bin/xmlsec1'
+IDP_SERVICES = [
+    path.join(BASEDIR, 'remote_metadata.xml'),
+    path.join(BASEDIR, 'testshib.xml')
+]
 if DEBUG:
     PROJECT_DIR_ROOT = "./"
     MIDDLE_DIR = ""
+    IDP_URL = "http://localhost:8000/"
 else:
     MIDDLE_DIR = "/emif/"
+    IDP_URL = BASE_URL
 
 ADMINS = (
     ('Luis A. Bastiao Silva', 'bastiao@ua.pt'),
@@ -388,20 +399,12 @@ ANONYMOUS_USER_ID = -1
 
 AUTH_PROFILE_MODULE = 'accounts.EmifProfile'
 
-from os import path
-
-from saml2 import saml
-
-import saml2
-
-
-BASEDIR = path.dirname(path.abspath(__file__))
 SAML_CONFIG = {
     # full path to the xmlsec1 binary programm
-    'xmlsec_binary': '/usr/bin/xmlsec1',
+    'xmlsec_binary': XMLSEC_BIN,
 
     # your entity id, usually your subdomain plus the url to the metadata view
-    'entityid': 'http://localhost:8000/saml2/metadata',
+    'entityid': IDP_URL+'saml2/metadata',
 
     # directory with attribute mapping
     'attribute_map_dir': path.join(BASEDIR, 'attributemaps'),
@@ -410,21 +413,21 @@ SAML_CONFIG = {
     'service': {
          # we are just a lonely SP
         'sp' : {
-            'name': 'Federated Django sample SP',
+            'name': 'Emif Catalogue SP',
             'name_id_format': saml.NAMEID_FORMAT_TRANSIENT,
             'endpoints': {
                 # url and binding to the assetion consumer service view
                 # do not change the binding or service name
                 'assertion_consumer_service': [
-                    ('http://localhost:8000/saml2/acs/',
+                    (IDP_URL+'saml2/acs/',
                         saml2.BINDING_HTTP_POST),
                     ],
                     # url and binding to the single logout service view
                     # do not change the binding or service name
                     'single_logout_service': [
-                        ('http://localhost:8000/saml2/ls/',
+                        (IDP_URL+'saml2/ls/',
                             saml2.BINDING_HTTP_REDIRECT),
-                        ('http://localhost:8000/saml2/ls/post',
+                        (IDP_URL+'saml2/ls/post',
                             saml2.BINDING_HTTP_POST)
                         ],
 
@@ -436,39 +439,12 @@ SAML_CONFIG = {
 
            # attributes that may be useful to have but not required
           'optional_attributes': ['eduPersonAffiliation'],
-
-          # in this section the list of IdPs we talk to are defined
-          'idp': {
-                  # we do not need a WAYF service since there is
-                  # only an IdP defined here. This IdP should be
-                  # present in our metadata
-
-                  # the keys of this dictionary are entity ids
-                  'https://openidp.feide.no': {
-                      'single_sign_on_service': {
-                          saml2.BINDING_HTTP_REDIRECT: 'https://openidp.feide.no/simplesaml/saml2/idp/SSOService.php',
-                          },
-                      'single_logout_service': {
-                          saml2.BINDING_HTTP_REDIRECT: 'https://openidp.feide.no/simplesaml/saml2/idp/SingleLogoutService.php',
-                          },
-                      },
-                  'https://idp.testshib.org/idp/shibboleth': {
-                      'single_sign_on_service': {
-                          saml2.BINDING_HTTP_REDIRECT: 'https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO',
-                          },
-                      'single_logout_service': {
-                          saml2.BINDING_HTTP_REDIRECT: 'https://sp.testshib.org/Shibboleth.sso/SLO/Redirect',
-                          },
-                      },
-              },
           },
       },
 
   # where the remote metadata is stored
   'metadata': {
-      'local': [
-        path.join(BASEDIR, 'remote_metadata.xml'),
-        path.join(BASEDIR, 'testshib.xml')],
+      'local': IDP_SERVICES,
       },
 
   # set to 1 to output debugging information

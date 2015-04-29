@@ -117,7 +117,11 @@ All terminal commands can be executed, but whenever we use something between '<'
 
 		$	celery --app=emif.tasks worker -l debug -B
 
-13. Run
+13. Create sp.key and sp.crt files on emif/emif/ being them respectively the private key and the public certificate for all comunication originating from third-party IDP's to our SP endpoint
+
+14. The SP endpoint for IDPS uses xmlsec (which is installed through this readme). By default the path to this binary is '/usr/bin/xmlsec1'. If the path on the system is different it should be defined through the variable 'XMLSEC_BIN' on emif/emif/settings.py, otherwise it's okay to leave the default value.
+
+14. Run
 
         $	python manage.py syncdb
 		$	python manage.py import-questionnaire <path_to_fingerprint_schema>
@@ -126,11 +130,11 @@ All terminal commands can be executed, but whenever we use something between '<'
         $	python manage.py runserver 0.0.0.0:8000
 
 
-14. Create a folder to documents population characteristic
+15. Create a folder to documents population characteristic
 
         mkdir -p <your_path>/EMIF-ROOT/emif/static/files/
 
-17. Open browser and write
+16. Open browser and write
 
         localhost:8000
 
@@ -154,6 +158,10 @@ All terminal commands can be executed, but whenever we use something between '<'
     	GITHUB_PASSWD='pass'
     	GITHUB_ACCOUNT='bioinformatics-ua'
     	GITHUB_REPO='emif-fb'
+
+4. To add a new IDP service to the our SP endpoint just add the service metadata xml file path to IDP_SERVICES array **Fill accordingly** (optional).
+
+        IDP_SERVICES += [path.join(BASEDIR, 'idp_metadata.xml')]
 
 
 ### Start the virtual environment and development (always)
