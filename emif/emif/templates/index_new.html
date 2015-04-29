@@ -191,9 +191,15 @@ function SingleSignOn() {
                       <!--<label class="checkbox">
                         <input type="checkbox"> Remember me
                     </label>-->
-                    <div class="">
                     <button  type="submit" class="offset3 span4 btn btn-success btn-large">Sign in</button>
-                    <a  href="saml2/login" class="span2 btn btn-info btn-large">IDP</a>
+                    <div class="span2 btn-group">
+                      <a class="span12 btn btn-info dropdown-toggle btn-large" data-toggle="dropdown" href="#">
+                        IDPs
+                        <span class="caret"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        {% idps_dropdown %}
+                      </ul>
                     </div>
                 </div>
             </div>

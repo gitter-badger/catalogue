@@ -24,4 +24,9 @@
     <md:SurName>support</md:SurName>
     <md:EmailAddress>support@feide.no</md:EmailAddress>
   </md:ContactPerson>
+        <md:Organization>
+            <md:OrganizationName xml:lang="en">Feide OpenIDP</md:OrganizationName>
+            <md:OrganizationDisplayName xml:lang="en">Feide OpenIDP</md:OrganizationDisplayName>
+            <md:OrganizationURL xml:lang="en">https://openidp.feide.no/</md:OrganizationURL>
+        </md:Organization>
 </md:EntityDescriptor>

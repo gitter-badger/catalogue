@@ -411,7 +411,7 @@ SAML_CONFIG = {
          # we are just a lonely SP
         'sp' : {
             'name': 'Federated Django sample SP',
-            'name_id_format': saml.NAMEID_FORMAT_PERSISTENT,
+            'name_id_format': saml.NAMEID_FORMAT_TRANSIENT,
             'endpoints': {
                 # url and binding to the assetion consumer service view
                 # do not change the binding or service name
@@ -452,13 +452,21 @@ SAML_CONFIG = {
                           saml2.BINDING_HTTP_REDIRECT: 'https://openidp.feide.no/simplesaml/saml2/idp/SingleLogoutService.php',
                           },
                       },
+                  'https://idp.testshib.org/idp/shibboleth': {
+                      'single_sign_on_service': {
+                          saml2.BINDING_HTTP_REDIRECT: 'https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO',
+                          },
+                      'single_logout_service': {
+                          saml2.BINDING_HTTP_REDIRECT: 'https://sp.testshib.org/Shibboleth.sso/SLO/Redirect',
+                          },
+                      },
               },
           },
       },
 
   # where the remote metadata is stored
   'metadata': {
-      'local': [path.join(BASEDIR, 'remote_metadata.xml')],
+      'local': [path.join(BASEDIR, 'remote_metadata.xml'), path.join(BASEDIR, 'testshib.xml')],
       },
 
   # set to 1 to output debugging information
@@ -494,6 +502,7 @@ SAML_DJANGO_USER_MAIN_ATTRIBUTE = 'email'
 SAML_USE_NAME_ID_AS_USERNAME = False
 SAML_CREATE_UNKNOWN_USER = True
 SAML_ATTRIBUTE_MAPPING = {
+    'eduPersonPrincipalName': ('email', 'username'),
     'mail': ('email', 'username' ),
     'givenName': ('first_name', ),
     'sn': ('last_name', ),

@@ -33,9 +33,10 @@ from accounts.models import Profile
 
 from newsletter.models import Newsletter, Subscription
 
+from djangosaml2.conf import config_settings_loader
+from djangosaml2.utils import available_idps
+
 register = template.Library()
-
-
 
 
 @register.filter(name='removeh1')
@@ -427,6 +428,13 @@ register.tag( 'get_version', get_version_tag )
 @register.simple_tag
 def slogan():
     return "Discover the right data for your research"
+
+@register.simple_tag
+def idps_dropdown():
+    return render_to_string('reusable_blocks/idp_dropdowns.html',
+        {
+            "idps": available_idps(config_settings_loader()).items()
+        })
 
 
 @register.filter(name='has_group')
